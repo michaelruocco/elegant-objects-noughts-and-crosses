@@ -1,8 +1,10 @@
 package uk.co.mruoc;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.catchThrowable;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
 
 class CoordinatesTest {
@@ -23,6 +25,15 @@ class CoordinatesTest {
         var error = catchThrowable(coordinates::validate);
 
         assertThat(error).isInstanceOf(IllegalStateException.class).hasMessage("invalid y axis coordinate value -1");
+    }
+
+    @Test
+    void shouldNotThrowExceptionIfXAxisAndYAxisAreBothValid() {
+        var coordinates = new Coordinates(1, 1);
+
+        ThrowingCallable callable = coordinates::validate;
+
+        assertThatCode(callable).doesNotThrowAnyException();
     }
 
     @Test

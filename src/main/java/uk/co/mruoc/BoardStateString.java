@@ -1,39 +1,43 @@
 package uk.co.mruoc;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import lombok.EqualsAndHashCode;
+import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@EqualsAndHashCode
 public class BoardStateString {
 
-    private final Board board;
+    private final BoardState.Smart state;
+
+    public BoardStateString(BoardState state) {
+        this(new BoardState.Smart(state));
+    }
 
     @Override
     public String toString() {
-        int size = board.size();
-        Collection<String> rows = new ArrayList<>();
-        rows.add(buildHeader(size));
-        for (int y = 0; y < size; y++) {
-            rows.add(buildRow(board, size, y));
-        }
-        return rows.stream().collect(Collectors.joining(System.lineSeparator()));
+        return Stream.concat(Stream.of(header()), rows()).collect(Collectors.joining(System.lineSeparator()));
     }
 
-    private static String buildHeader(int size) {
-        var header = IntStream.range(0, size).mapToObj(Integer::toString).collect(Collectors.joining(" "));
+    private String header() {
+        var header = sizeIntStream().mapToObj(Integer::toString).collect(Collectors.joining(" "));
         return String.format("  %s", header);
     }
 
-    private static String buildRow(Board board, int size, int y) {
+    private Stream<String> rows() {
+        return sizeIntStream().mapToObj(this::row);
+    }
+
+    private String row(int y) {
         Collection<String> tokens = new ArrayList<>();
         tokens.add(Integer.toString(y));
-        for (int x = 0; x < size; x++) {
-            tokens.add(board.token(new Coordinates(x, y)).value());
-        }
+        sizeIntStream().mapToObj(x -> state.token(x, y)).map(Token::value).forEach(tokens::add);
         return String.join(" ", tokens);
+    }
+
+    private IntStream sizeIntStream() {
+        return IntStream.range(0, state.sizeValue());
     }
 }

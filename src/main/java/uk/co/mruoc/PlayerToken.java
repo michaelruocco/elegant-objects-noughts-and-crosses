@@ -9,14 +9,6 @@ public class PlayerToken implements Token {
 
     private final char value;
 
-    public static Token X() {
-        return new PlayerToken('X');
-    }
-
-    public static Token O() {
-        return new PlayerToken('O');
-    }
-
     @Override
     public boolean free() {
         return false;

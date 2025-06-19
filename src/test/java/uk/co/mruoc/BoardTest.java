@@ -11,61 +11,43 @@ class BoardTest {
 
     @Test
     void shouldHaveDefaultSizeIfNotProvided() {
-        var board = new Board();
+        var board = new Board.Smart(new DefaultBoard());
 
         var size = board.size();
 
-        assertThat(size).isEqualTo(3);
+        assertThat(size).isEqualTo(new BoardSize(3));
     }
 
     @Test
     void shouldNotAllowBoardSizeLessThan3() {
-        var board = new Board(2);
+        var board = new DefaultBoard(2);
 
-        var error = catchThrowable(board::validate);
+        var error = catchThrowable(board::initialized);
 
         assertThat(error).isInstanceOf(IllegalArgumentException.class).hasMessage("board size 2 cannot be less than 3");
     }
 
     @Test
     void shouldNotAllowEvenBoardSize() {
-        var board = new Board(4);
+        var board = new DefaultBoard(4);
 
-        var error = catchThrowable(board::validate);
+        var error = catchThrowable(board::initialized);
 
         assertThat(error).isInstanceOf(IllegalArgumentException.class).hasMessage("board size 4 cannot be even");
     }
 
     @Test
     void shouldNotThrowExceptionIfBoardIsValid() {
-        var board = new Board();
+        var board = new DefaultBoard();
 
-        ThrowingCallable callable = board::validate;
+        ThrowingCallable callable = board::initialized;
 
         assertThatCode(callable).doesNotThrowAnyException();
     }
 
     @Test
-    void shouldBeEmptyInitially() {
-        var board = new Board();
-
-        var empty = board.empty();
-
-        assertThat(empty).isTrue();
-    }
-
-    @Test
-    void shouldReturnFalseIfNotEmpty() {
-        var board = new Board().take(new Turn(0, 0, PlayerToken.X()));
-
-        var empty = board.empty();
-
-        assertThat(empty).isFalse();
-    }
-
-    @Test
     void shouldBePlayableInitially() {
-        var board = new Board();
+        var board = new DefaultBoard().initialized();
 
         var playable = board.playable();
 
@@ -82,28 +64,19 @@ class BoardTest {
     }
 
     @Test
-    void shouldNotBeFullInitially() {
-        var board = new Board();
-
-        var full = board.full();
-
-        assertThat(full).isFalse();
-    }
-
-    @Test
     void shouldReturnTrueIfFull() {
         var board = fullBoard();
 
-        var full = board.full();
+        var full = new Board.Smart(board).full();
 
         assertThat(full).isTrue();
     }
 
     @Test
     void shouldThrowExceptionIfTurnIfCoordinateLocationNotFoundOnBoard() {
-        var board = new Board();
+        var board = new DefaultBoard();
 
-        var error = catchThrowable(() -> board.take(new Turn(4, 4, PlayerToken.X())));
+        var error = catchThrowable(() -> board.take(new Turn(4, 4, new TokenX())));
 
         assertThat(error)
                 .isInstanceOf(IllegalArgumentException.class)
@@ -112,12 +85,9 @@ class BoardTest {
 
     @Test
     void shouldReturnStalemateResultInitially() {
-        var board = new Board();
+        var board = new DefaultBoard().initialized();
 
         var result = board.result();
-
-        assertThat(PlayerToken.X()).isEqualTo(new PlayerToken('X'));
-        assertThat(PlayerToken.X().equals(new PlayerToken('X'))).isTrue();
 
         assertThat(result.winner()).isFalse();
         assertThat(result.token()).isEqualTo(new FreeToken());
@@ -126,7 +96,10 @@ class BoardTest {
 
     @Test
     void shouldReturnStalemateResultIfNoWinner() {
-        var board = new Board().take(new Turn(0, 0, PlayerToken.X())).take(new Turn(0, 1, PlayerToken.O()));
+        var board = new DefaultBoard()
+                .initialized()
+                .take(new Turn(0, 0, new TokenX()))
+                .take(new Turn(0, 1, new TokenO()));
 
         var result = board.result();
 
@@ -137,8 +110,12 @@ class BoardTest {
 
     @Test
     void shouldReturnResultWithWinnerIfThereIsOne() {
-        var x = PlayerToken.X();
-        var board = new Board().take(new Turn(0, 0, x)).take(new Turn(0, 1, x)).take(new Turn(0, 2, x));
+        var x = new TokenX();
+        var board = new DefaultBoard()
+                .initialized()
+                .take(new Turn(0, 0, x))
+                .take(new Turn(0, 1, x))
+                .take(new Turn(0, 2, x));
 
         var result = board.result();
 
@@ -149,9 +126,9 @@ class BoardTest {
 
     @Test
     void shouldThrowExceptionIfCoordinatesAlreadyTaken() {
-        var board = new Board().take(new Turn(0, 0, PlayerToken.X()));
+        var board = new DefaultBoard().initialized().take(new Turn(0, 0, new TokenX()));
 
-        var error = catchThrowable(() -> board.take(new Turn(0, 0, PlayerToken.O())));
+        var error = catchThrowable(() -> board.take(new Turn(0, 0, new TokenO())));
 
         assertThat(error)
                 .isInstanceOf(IllegalArgumentException.class)
@@ -160,9 +137,10 @@ class BoardTest {
 
     @Test
     void shouldDisplayEmptyBoardStateAsString() {
-        var state = new BoardStateString(new Board());
+        var state = new DefaultBoard().initialized().state();
+        var stateString = new BoardStateString(state);
 
-        var string = state.toString();
+        var string = stateString.toString();
 
         assertThat(string)
                 .isEqualTo(
@@ -175,7 +153,8 @@ class BoardTest {
 
     @Test
     void shouldDisplayFullBoardStateAsString() {
-        var state = new BoardStateString(fullBoard());
+        var board = fullBoard();
+        var state = new BoardStateString(board.state());
 
         var string = state.toString();
 
@@ -189,9 +168,10 @@ class BoardTest {
     }
 
     private Board fullBoard() {
-        var x = PlayerToken.X();
-        var o = PlayerToken.O();
-        return new Board()
+        var x = new TokenX();
+        var o = new TokenO();
+        return new DefaultBoard()
+                .initialized()
                 .take(new Turn(0, 0, x))
                 .take(new Turn(0, 1, o))
                 .take(new Turn(0, 2, x))
