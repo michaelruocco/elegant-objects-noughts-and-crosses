@@ -19,8 +19,8 @@ public class BoardLine {
         return locations.stream().map(Coordinates::toString).collect(Collectors.joining(","));
     }
 
-    public BoardResult result(BoardState tokens) {
-        var lineTokens = locations.stream().map(tokens::token).collect(Collectors.toSet());
+    public BoardResult result(ReadOnlyBoardState state) {
+        var lineTokens = locations.stream().map(state::token).collect(Collectors.toSet());
         if (lineTokens.size() != 1) {
             return new StalemateResult(this);
         }

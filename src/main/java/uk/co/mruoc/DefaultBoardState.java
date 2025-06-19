@@ -1,9 +1,11 @@
 package uk.co.mruoc;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 
@@ -52,5 +54,12 @@ public class DefaultBoardState implements BoardState {
     @Override
     public boolean full() {
         return locations.values().stream().noneMatch(Token::free);
+    }
+
+    @Override
+    public Collection<Coordinates> freeCoordinates() {
+        return locations.keySet().stream()
+                .filter(coordinates -> token(coordinates).free())
+                .collect(Collectors.toSet());
     }
 }

@@ -10,10 +10,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BoardStateString {
 
-    private final BoardState.Smart state;
+    private final ReadOnlyBoardState.Smart state;
 
-    public BoardStateString(BoardState state) {
-        this(new BoardState.Smart(state));
+    public BoardStateString(ReadOnlyBoardState state) {
+        this(new ReadOnlyBoardState.Smart(state));
     }
 
     @Override

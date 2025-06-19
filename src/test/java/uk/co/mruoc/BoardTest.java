@@ -75,7 +75,7 @@ class BoardTest {
     @Test
     void shouldThrowExceptionIfTurnIfCoordinateLocationNotFoundOnBoard() {
         var board = new DefaultBoard().initialized();
-        var turn = new Turn(4, 4, new TokenX());
+        var turn = new PlayerTurn(4, 4, new TokenX());
 
         var error = catchThrowable(() -> turn.apply(board));
 
@@ -98,7 +98,7 @@ class BoardTest {
     @Test
     void shouldReturnStalemateResultIfNoWinner() {
         var board = new DefaultBoard().initialized();
-        var turns = new Turn(0, 0, new TokenX()).andThen(new Turn(0, 1, new TokenO()));
+        var turns = new PlayerTurn(0, 0, new TokenX()).andThen(new PlayerTurn(0, 1, new TokenO()));
 
         var result = turns.apply(board).result();
 
@@ -111,7 +111,7 @@ class BoardTest {
     void shouldReturnResultWithWinnerIfThereIsOne() {
         var x = new TokenX();
         var board = new DefaultBoard().initialized();
-        var turns = new Turn(0, 0, x).andThen(new Turn(0, 1, x)).andThen(new Turn(0, 2, x));
+        var turns = new PlayerTurn(0, 0, x).andThen(new PlayerTurn(0, 1, x)).andThen(new PlayerTurn(0, 2, x));
 
         var result = turns.apply(board).result();
 
@@ -122,10 +122,10 @@ class BoardTest {
 
     @Test
     void shouldThrowExceptionIfCoordinatesAlreadyTaken() {
-        var turn = new Turn(0, 0, new TokenX());
+        var turn = new PlayerTurn(0, 0, new TokenX());
         var board = turn.apply(new DefaultBoard().initialized());
 
-        var error = catchThrowable(() -> new Turn(0, 0, new TokenO()).apply(board));
+        var error = catchThrowable(() -> new PlayerTurn(0, 0, new TokenO()).apply(board));
 
         assertThat(error)
                 .isInstanceOf(IllegalArgumentException.class)
@@ -167,15 +167,15 @@ class BoardTest {
     private Board fullBoard() {
         var x = new TokenX();
         var o = new TokenO();
-        var turns = new Turn(0, 0, x)
-                .andThen(new Turn(0, 1, o))
-                .andThen(new Turn(0, 2, x))
-                .andThen(new Turn(1, 0, o))
-                .andThen(new Turn(1, 1, x))
-                .andThen(new Turn(1, 2, o))
-                .andThen(new Turn(2, 0, x))
-                .andThen(new Turn(2, 1, o))
-                .andThen(new Turn(2, 2, x));
+        var turns = new PlayerTurn(0, 0, x)
+                .andThen(new PlayerTurn(0, 1, o))
+                .andThen(new PlayerTurn(0, 2, x))
+                .andThen(new PlayerTurn(1, 0, o))
+                .andThen(new PlayerTurn(1, 1, x))
+                .andThen(new PlayerTurn(1, 2, o))
+                .andThen(new PlayerTurn(2, 0, x))
+                .andThen(new PlayerTurn(2, 1, o))
+                .andThen(new PlayerTurn(2, 2, x));
         var board = new DefaultBoard().initialized();
         return turns.apply(board);
     }
