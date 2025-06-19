@@ -8,9 +8,9 @@ public class BoardLines {
 
     private final Collection<BoardLine> lines;
 
-    public BoardResult result(BoardState tokens) {
+    public BoardResult result(BoardState state) {
         return lines.stream()
-                .map(line -> line.result(tokens))
+                .map(line -> line.result(state))
                 .filter(BoardResult::winner)
                 .findFirst()
                 .orElse(new StalemateResult());

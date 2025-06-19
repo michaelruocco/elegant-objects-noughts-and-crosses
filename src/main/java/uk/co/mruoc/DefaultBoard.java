@@ -7,8 +7,7 @@ import lombok.RequiredArgsConstructor;
 @EqualsAndHashCode
 public class DefaultBoard implements Board {
 
-    private final BoardSize size;
-    private final BoardLocations locations;
+    private final BoardState state;
     private final BoardLines lines;
 
     public DefaultBoard() {
@@ -20,41 +19,30 @@ public class DefaultBoard implements Board {
     }
 
     public DefaultBoard(BoardSize size) {
-        this(size, new BoardLocations(size), new BoardLines(size.lines()));
+        this(new DefaultBoardState(size));
+    }
+
+    public DefaultBoard(BoardState state) {
+        this(state, new BoardLines(state.size().lines()));
     }
 
     @Override
     public Board initialized() {
-        size.validate();
-        return new DefaultBoard(size, locations.initialized(), lines);
-    }
-
-    @Override
-    public Board take(Turn turn) {
-        return place(turn.coordinates(), turn.token());
+        return new DefaultBoard(state.initialized());
     }
 
     @Override
     public boolean playable() {
-        return !locations.full() && !result().winner();
+        return !state.full() && !result().winner();
     }
 
     @Override
     public BoardResult result() {
-        return lines.result(locations);
+        return lines.result(state);
     }
 
     @Override
     public BoardState state() {
-        return locations;
-    }
-
-    private Board place(Coordinates coordinates, Token newToken) {
-        var originalToken = locations.token(coordinates);
-        if (!originalToken.free()) {
-            throw new IllegalArgumentException(String.format(
-                    "token %s already placed at coordinates %s", originalToken.value(), coordinates.toString()));
-        }
-        return new DefaultBoard(size, locations.place(coordinates, newToken), lines);
+        return state;
     }
 }

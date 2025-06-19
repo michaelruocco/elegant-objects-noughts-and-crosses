@@ -74,9 +74,10 @@ class BoardTest {
 
     @Test
     void shouldThrowExceptionIfTurnIfCoordinateLocationNotFoundOnBoard() {
-        var board = new DefaultBoard();
+        var board = new DefaultBoard().initialized();
+        var turn = new Turn(4, 4, new TokenX());
 
-        var error = catchThrowable(() -> board.take(new Turn(4, 4, new TokenX())));
+        var error = catchThrowable(() -> turn.apply(board));
 
         assertThat(error)
                 .isInstanceOf(IllegalArgumentException.class)
@@ -96,12 +97,10 @@ class BoardTest {
 
     @Test
     void shouldReturnStalemateResultIfNoWinner() {
-        var board = new DefaultBoard()
-                .initialized()
-                .take(new Turn(0, 0, new TokenX()))
-                .take(new Turn(0, 1, new TokenO()));
+        var board = new DefaultBoard().initialized();
+        var turns = new Turn(0, 0, new TokenX()).andThen(new Turn(0, 1, new TokenO()));
 
-        var result = board.result();
+        var result = turns.apply(board).result();
 
         assertThat(result.winner()).isFalse();
         assertThat(result.token()).isEqualTo(new FreeToken());
@@ -111,13 +110,10 @@ class BoardTest {
     @Test
     void shouldReturnResultWithWinnerIfThereIsOne() {
         var x = new TokenX();
-        var board = new DefaultBoard()
-                .initialized()
-                .take(new Turn(0, 0, x))
-                .take(new Turn(0, 1, x))
-                .take(new Turn(0, 2, x));
+        var board = new DefaultBoard().initialized();
+        var turns = new Turn(0, 0, x).andThen(new Turn(0, 1, x)).andThen(new Turn(0, 2, x));
 
-        var result = board.result();
+        var result = turns.apply(board).result();
 
         assertThat(result.winner()).isTrue();
         assertThat(result.token()).isEqualTo(x);
@@ -126,9 +122,10 @@ class BoardTest {
 
     @Test
     void shouldThrowExceptionIfCoordinatesAlreadyTaken() {
-        var board = new DefaultBoard().initialized().take(new Turn(0, 0, new TokenX()));
+        var turn = new Turn(0, 0, new TokenX());
+        var board = turn.apply(new DefaultBoard().initialized());
 
-        var error = catchThrowable(() -> board.take(new Turn(0, 0, new TokenO())));
+        var error = catchThrowable(() -> new Turn(0, 0, new TokenO()).apply(board));
 
         assertThat(error)
                 .isInstanceOf(IllegalArgumentException.class)
@@ -170,16 +167,16 @@ class BoardTest {
     private Board fullBoard() {
         var x = new TokenX();
         var o = new TokenO();
-        return new DefaultBoard()
-                .initialized()
-                .take(new Turn(0, 0, x))
-                .take(new Turn(0, 1, o))
-                .take(new Turn(0, 2, x))
-                .take(new Turn(1, 0, o))
-                .take(new Turn(1, 1, x))
-                .take(new Turn(1, 2, o))
-                .take(new Turn(2, 0, x))
-                .take(new Turn(2, 1, o))
-                .take(new Turn(2, 2, x));
+        var turns = new Turn(0, 0, x)
+                .andThen(new Turn(0, 1, o))
+                .andThen(new Turn(0, 2, x))
+                .andThen(new Turn(1, 0, o))
+                .andThen(new Turn(1, 1, x))
+                .andThen(new Turn(1, 2, o))
+                .andThen(new Turn(2, 0, x))
+                .andThen(new Turn(2, 1, o))
+                .andThen(new Turn(2, 2, x));
+        var board = new DefaultBoard().initialized();
+        return turns.apply(board);
     }
 }

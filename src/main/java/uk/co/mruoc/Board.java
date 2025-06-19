@@ -3,9 +3,8 @@ package uk.co.mruoc;
 import lombok.RequiredArgsConstructor;
 
 public interface Board {
-    Board initialized();
 
-    Board take(Turn turn);
+    Board initialized();
 
     boolean playable();
 

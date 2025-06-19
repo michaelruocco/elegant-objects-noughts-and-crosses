@@ -6,6 +6,10 @@ public interface BoardState {
 
     BoardSize size();
 
+    BoardState initialized();
+
+    BoardState place(Coordinates coordinates, Token newToken);
+
     Token token(Coordinates coordinates);
 
     boolean full();
