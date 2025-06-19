@@ -19,7 +19,8 @@ public class Coordinates {
         y.validate();
     }
 
-    public String id() {
-        return String.format("%s-%s", x.id(), y.id());
+    @Override
+    public String toString() {
+        return String.format("%s-%s", x.toString(), y.toString());
     }
 }

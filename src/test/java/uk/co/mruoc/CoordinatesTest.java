@@ -26,11 +26,11 @@ class CoordinatesTest {
     }
 
     @Test
-    void shouldReturnCoordinatesId() {
+    void shouldReturnCoordinatesString() {
         var coordinates = new Coordinates(2, 3);
 
-        var id = coordinates.id();
+        var s = coordinates.toString();
 
-        assertThat(id).isEqualTo("x:2-y:3");
+        assertThat(s).isEqualTo("x:2-y:3");
     }
 }

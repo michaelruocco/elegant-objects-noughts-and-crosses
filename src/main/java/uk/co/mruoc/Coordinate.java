@@ -20,7 +20,8 @@ public class Coordinate {
         return value > -1;
     }
 
-    public String id() {
+    @Override
+    public String toString() {
         return String.format("%s:%d", axis, value);
     }
 }

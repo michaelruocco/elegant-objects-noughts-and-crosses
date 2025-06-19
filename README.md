@@ -1,13 +1,13 @@
 # Library Template
 
-[![Build](https://github.com/michaelruocco/library-template/workflows/pipeline/badge.svg)](https://github.com/michaelruocco/library-template/actions)
-[![codecov](https://codecov.io/gh/michaelruocco/library-template/branch/master/graph/badge.svg?token=FWDNP534O7)](https://codecov.io/gh/michaelruocco/library-template)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/272889cf707b4dcb90bf451392530794)](https://www.codacy.com/gh/michaelruocco/library-template/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=michaelruocco/library-template&amp;utm_campaign=Badge_Grade)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=michaelruocco_library-template&metric=alert_status)](https://sonarcloud.io/dashboard?id=michaelruocco_library-template)
-[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=michaelruocco_library-template&metric=sqale_index)](https://sonarcloud.io/dashboard?id=michaelruocco_library-template)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=michaelruocco_library-template&metric=coverage)](https://sonarcloud.io/dashboard?id=michaelruocco_library-template)
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=michaelruocco_library-template&metric=ncloc)](https://sonarcloud.io/dashboard?id=michaelruocco_library-template)
-[![Maven Central](https://img.shields.io/maven-central/v/com.github.michaelruocco/library-template.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.github.michaelruocco%22%20AND%20a:%22library-template%22)
+[![Build](https://github.com/michaelruocco/elegant-objects-noughts-and-crosses/workflows/pipeline/badge.svg)](https://github.com/michaelruocco/elegant-objects-noughts-and-crosses/actions)
+[![codecov](https://codecov.io/gh/michaelruocco/elegant-objects-noughts-and-crosses/branch/master/graph/badge.svg?token=FWDNP534O7)](https://codecov.io/gh/michaelruocco/elegant-objects-noughts-and-crosses)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/272889cf707b4dcb90bf451392530794)](https://www.codacy.com/gh/michaelruocco/elegant-objects-noughts-and-crosses/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=michaelruocco/elegant-objects-noughts-and-crosses&amp;utm_campaign=Badge_Grade)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=michaelruocco_elegant-objects-noughts-and-crosses&metric=alert_status)](https://sonarcloud.io/dashboard?id=michaelruocco_elegant-objects-noughts-and-crosses)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=michaelruocco_elegant-objects-noughts-and-crosses&metric=sqale_index)](https://sonarcloud.io/dashboard?id=michaelruocco_elegant-objects-noughts-and-crosses)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=michaelruocco_elegant-objects-noughts-and-crosses&metric=coverage)](https://sonarcloud.io/dashboard?id=michaelruocco_elegant-objects-noughts-and-crosses)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=michaelruocco_elegant-objects-noughts-and-crosses&metric=ncloc)](https://sonarcloud.io/dashboard?id=michaelruocco_elegant-objects-noughts-and-crosses)
+[![Maven Central](https://img.shields.io/maven-central/v/com.github.michaelruocco/elegant-objects-noughts-and-crosses.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.github.michaelruocco%22%20AND%20a:%22elegant-objects-noughts-and-crosses%22)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Overview

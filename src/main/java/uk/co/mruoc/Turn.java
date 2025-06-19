@@ -10,8 +10,8 @@ public class Turn {
     private final Coordinates coordinates;
     private final Token token;
 
-    public Turn(long x, long y, char token) {
-        this(new Coordinates(x, y), new PlayerToken(token));
+    public Turn(long x, long y, Token token) {
+        this(new Coordinates(x, y), token);
     }
 
     public Coordinates coordinates() {
