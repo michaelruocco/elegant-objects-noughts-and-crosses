@@ -11,8 +11,6 @@ public class RunnableGame {
         var currentGame = game;
         while (currentGame.playable()) {
             currentGame = currentGame.playTurn();
-            // System.out.println(new BoardStateString(currentGame.boardState()));
-            // System.out.println();
         }
         return currentGame;
     }
