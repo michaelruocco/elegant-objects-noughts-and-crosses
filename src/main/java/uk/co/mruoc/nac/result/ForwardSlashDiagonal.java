@@ -27,7 +27,7 @@ public class ForwardSlashDiagonal implements Line {
             coordinates.add(mapping.map(x, y));
             y++;
             x--;
-        } while (y <= size && x >= 0);
+        } while (x >= 0);
         return Collections.unmodifiableCollection(coordinates);
     }
 

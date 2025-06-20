@@ -21,13 +21,11 @@ public class BackSlashDiagonal implements Line {
     @Override
     public Collection<Coordinates> coordinates() {
         Collection<Coordinates> coordinates = new ArrayList<>();
-        var y = 0;
-        var x = 0;
+        var i = 0;
         do {
-            coordinates.add(mapping.map(x, y));
-            y++;
-            x++;
-        } while (y < size && x < size);
+            coordinates.add(mapping.map(i, i));
+            i++;
+        } while (i < size);
         return Collections.unmodifiableCollection(coordinates);
     }
 
