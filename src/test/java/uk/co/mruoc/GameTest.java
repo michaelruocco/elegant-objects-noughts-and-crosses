@@ -8,7 +8,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class GameTest {
+class GameTest {
 
     private final Board board = new DefaultBoard().initialized();
     private final Players players = new Players();
