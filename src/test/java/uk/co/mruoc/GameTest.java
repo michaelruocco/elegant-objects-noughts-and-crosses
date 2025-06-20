@@ -3,11 +3,13 @@ package uk.co.mruoc;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.stream.Stream;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Named;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+@Slf4j
 class GameTest {
 
     private final Board board = new DefaultBoard().initialized();
@@ -22,7 +24,7 @@ class GameTest {
         var completeGame = runnable.run();
 
         assertThat(completeGame.playable()).isFalse();
-        System.out.println(new BoardStateString(completeGame.boardState()));
+        log.info("{}{}", System.lineSeparator(), new BoardStateString(completeGame.boardState()));
     }
 
     private static Stream<Arguments> turns() {
