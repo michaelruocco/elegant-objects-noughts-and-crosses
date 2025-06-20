@@ -1,6 +1,10 @@
 package uk.co.mruoc;
 
 import lombok.RequiredArgsConstructor;
+import uk.co.mruoc.nac.board.Board;
+import uk.co.mruoc.nac.board.State;
+import uk.co.mruoc.nac.token.Players;
+import uk.co.mruoc.nac.turn.Turns;
 
 @RequiredArgsConstructor
 public class Game {
