@@ -28,7 +28,7 @@ public class DefaultBoard implements Board {
         this(new BoardSize(size));
     }
 
-    public DefaultBoard(BoardSize size) {
+    private DefaultBoard(BoardSize size) {
         this(size, Collections.unmodifiableMap(new HashMap<>()));
     }
 

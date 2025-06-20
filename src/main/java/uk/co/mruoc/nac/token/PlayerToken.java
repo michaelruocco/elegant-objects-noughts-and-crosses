@@ -1,21 +1,9 @@
 package uk.co.mruoc.nac.token;
 
-import lombok.EqualsAndHashCode;
-import lombok.RequiredArgsConstructor;
-
-@RequiredArgsConstructor
-@EqualsAndHashCode
-public class PlayerToken implements Token {
-
-    private final char value;
+public interface PlayerToken extends Token {
 
     @Override
-    public boolean free() {
+    default boolean free() {
         return false;
-    }
-
-    @Override
-    public String value() {
-        return Character.toString(value);
     }
 }

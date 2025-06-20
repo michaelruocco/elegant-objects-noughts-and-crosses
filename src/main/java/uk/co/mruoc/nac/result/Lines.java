@@ -6,15 +6,15 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import uk.co.mruoc.nac.Coordinates;
-import uk.co.mruoc.nac.board.ReadOnlyBoard;
+import uk.co.mruoc.nac.board.BoardTokens;
 
 @RequiredArgsConstructor
 class Lines {
 
     private final int size;
 
-    public Result result(ReadOnlyBoard state) {
-        return lines().map(line -> result(state, line))
+    public Result result(BoardTokens tokens) {
+        return lines().map(line -> result(tokens, line))
                 .filter(Result::winner)
                 .findFirst()
                 .orElse(new StalemateResult());
@@ -78,8 +78,8 @@ class Lines {
         return new Line(coordinates);
     }
 
-    private Result result(ReadOnlyBoard state, Line line) {
-        var lineTokens = line.coordinates().stream().map(state::token).collect(Collectors.toSet());
+    private Result result(BoardTokens tokens, Line line) {
+        var lineTokens = line.coordinates().stream().map(tokens::token).collect(Collectors.toSet());
         if (lineTokens.size() != 1) {
             return new StalemateResult();
         }

@@ -2,10 +2,11 @@ package uk.co.mruoc.nac.token;
 
 import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper = true)
-public class TokenO extends PlayerToken {
+@EqualsAndHashCode
+public class TokenO implements PlayerToken {
 
-    public TokenO() {
-        super('O');
+    @Override
+    public String value() {
+        return Character.toString('O');
     }
 }
