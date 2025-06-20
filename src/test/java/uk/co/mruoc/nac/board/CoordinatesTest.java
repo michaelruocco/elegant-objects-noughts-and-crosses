@@ -16,7 +16,9 @@ class CoordinatesTest {
 
         var error = catchThrowable(coordinates::validate);
 
-        assertThat(error).isInstanceOf(IllegalStateException.class).hasMessage("invalid x axis coordinate value -1");
+        assertThat(error)
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("invalid x axis coordinate -1 must be greater than or equal to 0");
     }
 
     @Test
@@ -25,7 +27,9 @@ class CoordinatesTest {
 
         var error = catchThrowable(coordinates::validate);
 
-        assertThat(error).isInstanceOf(IllegalStateException.class).hasMessage("invalid y axis coordinate value -1");
+        assertThat(error)
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("invalid y axis coordinate -1 must be greater than or equal to 0");
     }
 
     @Test

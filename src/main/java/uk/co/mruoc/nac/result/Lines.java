@@ -7,6 +7,7 @@ import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import uk.co.mruoc.nac.board.BoardTokens;
 
+// TODO clean up some new operators and static methods
 @RequiredArgsConstructor
 class Lines {
 

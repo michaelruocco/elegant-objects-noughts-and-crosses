@@ -12,7 +12,7 @@ public class BoardRules implements Rule {
     }
 
     public BoardRules(int size, int minimum) {
-        this(new CompositeRule(new GreaterThanOrEqualToRule(size, minimum), new OddNumberRule(size)));
+        this(new CompositeRule(new BoardMinimumSizeRule(size, minimum), new OddNumberRule(size)));
     }
 
     @Override

@@ -13,6 +13,7 @@ import uk.co.mruoc.nac.Coordinates;
 import uk.co.mruoc.nac.token.FreeToken;
 import uk.co.mruoc.nac.token.Token;
 
+// TODO break down somehow
 @RequiredArgsConstructor
 @EqualsAndHashCode
 public class DefaultBoard implements Board {

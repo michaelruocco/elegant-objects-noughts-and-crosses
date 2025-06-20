@@ -2,22 +2,22 @@ package uk.co.mruoc.nac;
 
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
+import uk.co.mruoc.nac.board.Rule;
 
 @RequiredArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = "rule")
 public class Coordinate {
 
     private final String axis;
     private final long value;
+    private final Rule rule;
 
-    public void validate() {
-        if (!valid()) {
-            throw new IllegalStateException(String.format("invalid %s axis coordinate value %d", axis, value));
-        }
+    public Coordinate(String axis, long value) {
+        this(axis, value, new CoordinateMinimumValueRule(axis, value));
     }
 
-    public boolean valid() {
-        return value > -1;
+    public void validate() {
+        rule.validate();
     }
 
     @Override
