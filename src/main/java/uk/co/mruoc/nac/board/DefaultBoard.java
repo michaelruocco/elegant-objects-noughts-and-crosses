@@ -13,7 +13,6 @@ import uk.co.mruoc.nac.Coordinates;
 import uk.co.mruoc.nac.token.FreeToken;
 import uk.co.mruoc.nac.token.Token;
 
-// TODO break down somehow
 @RequiredArgsConstructor
 @EqualsAndHashCode
 public class DefaultBoard implements Board {
@@ -61,6 +60,7 @@ public class DefaultBoard implements Board {
         return new DefaultBoard(size, rules, newLocations, coordinateMapping, freeToken);
     }
 
+    // TODO split the methods below out into BoardLocations class
     @Override
     public Token token(Coordinates coordinates) {
         return Optional.ofNullable(locations.get(coordinates))

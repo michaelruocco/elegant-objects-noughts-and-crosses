@@ -1,50 +1,38 @@
 package uk.co.mruoc.nac.result;
 
-import java.util.Collection;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import uk.co.mruoc.nac.board.BoardTokens;
 
-// TODO clean up some new operators and static methods
 @RequiredArgsConstructor
 class Lines {
 
-    private final Collection<Line> values;
+    private final int size;
+    private final LineMapping lineMapping; // TODO cache wrapper so only built once
+    private final Result stalemate;
+    private final WinnerMapping winnerMapping;
 
     public Lines(int size) {
-        this(Stream.concat(
-                        Stream.concat(rows(size), columns(size)),
-                        Stream.of(new BackSlashDiagonal(size), new ForwardSlashDiagonal(size)))
-                .toList());
+        this(size, new DefaultLineMapping(), new StalemateResult(), WinnerResult::new);
     }
 
     public Result result(BoardTokens tokens) {
-        return values.stream()
+        return lineMapping.lines(size).stream()
                 .map(line -> result(tokens, line))
                 .filter(Result::winner)
                 .findFirst()
-                .orElse(new StalemateResult());
-    }
-
-    private static Stream<Line> rows(int size) {
-        return IntStream.range(0, size).mapToObj(y -> new Row(y, size));
-    }
-
-    private static Stream<Line> columns(int size) {
-        return IntStream.range(0, size).mapToObj(x -> new Column(x, size));
+                .orElse(stalemate);
     }
 
     private Result result(BoardTokens tokens, Line line) {
         var lineTokens = line.coordinates().stream().map(tokens::token).collect(Collectors.toSet());
         if (lineTokens.size() != 1) {
-            return new StalemateResult();
+            return stalemate;
         }
-        return lineTokens.stream()
-                .findFirst()
-                .filter(token -> !token.free())
-                .map(token -> (Result) new WinnerResult(token, line))
-                .orElse(new StalemateResult());
+        var token = lineTokens.stream().findFirst().orElseThrow();
+        if (token.free()) {
+            return stalemate;
+        }
+        return winnerMapping.winner(token, line);
     }
 }
