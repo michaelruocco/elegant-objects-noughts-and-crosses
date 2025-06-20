@@ -2,6 +2,7 @@ package uk.co.mruoc.nac.result;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import uk.co.mruoc.nac.board.Coordinates;
@@ -13,7 +14,7 @@ public class Lines {
     private final int size;
 
     public Result result(ReadOnlyState state) {
-        return lines().map(line -> line.result(state))
+        return lines().map(line -> result(state, line))
                 .filter(Result::winner)
                 .findFirst()
                 .orElse(new StalemateResult());
@@ -75,5 +76,17 @@ public class Lines {
             x--;
         } while (y <= size && x >= 0);
         return new Line(coordinates);
+    }
+
+    private Result result(ReadOnlyState state, Line line) {
+        var lineTokens = line.coordinates().stream().map(state::token).collect(Collectors.toSet());
+        if (lineTokens.size() != 1) {
+            return new StalemateResult();
+        }
+        return lineTokens.stream()
+                .findFirst()
+                .filter(token -> !token.free())
+                .map(token -> (Result) new WinnerResult(token, line))
+                .orElse(new StalemateResult());
     }
 }
