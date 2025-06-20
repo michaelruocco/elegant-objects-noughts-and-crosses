@@ -66,8 +66,9 @@ jobs:
         run: ./gradlew sonar
 
       - name: Codecov Coverage
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v5
         with:
+          token: ${{ secrets.CODECOV_TOKEN }}
           file: ./build/reports/jacoco/report.xml
 
       - name: Codacy Coverage
