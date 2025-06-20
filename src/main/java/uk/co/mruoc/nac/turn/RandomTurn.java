@@ -6,8 +6,7 @@ import java.util.Collections;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import uk.co.mruoc.nac.board.Board;
-import uk.co.mruoc.nac.board.Coordinates;
-import uk.co.mruoc.nac.board.DefaultBoard;
+import uk.co.mruoc.nac.Coordinates;
 import uk.co.mruoc.nac.token.Token;
 
 @RequiredArgsConstructor
@@ -18,10 +17,9 @@ public class RandomTurn implements Turn {
 
     @Override
     public Board apply(Board board) {
-        var state = board.state();
-        var freeCoordinates = state.freeCoordinates();
+        var freeCoordinates = board.freeCoordinates();
         var coordinates = selectRandomly(freeCoordinates);
-        return new DefaultBoard(state.place(coordinates, token));
+        return board.place(coordinates, token);
     }
 
     private Coordinates selectRandomly(Collection<Coordinates> freeCoordinates) {

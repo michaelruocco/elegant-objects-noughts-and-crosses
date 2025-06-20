@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 import lombok.RequiredArgsConstructor;
-import uk.co.mruoc.nac.board.Coordinates;
+import uk.co.mruoc.nac.Coordinates;
 import uk.co.mruoc.nac.token.PlayerToken;
 
 @RequiredArgsConstructor

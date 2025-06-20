@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import uk.co.mruoc.nac.board.Coordinates;
+import uk.co.mruoc.nac.Coordinates;
 
 @RequiredArgsConstructor
 public class Line {

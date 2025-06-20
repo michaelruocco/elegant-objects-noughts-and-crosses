@@ -1,9 +1,11 @@
 package uk.co.mruoc.nac.board;
 
 import java.util.Collection;
+
+import uk.co.mruoc.nac.Coordinates;
 import uk.co.mruoc.nac.token.Token;
 
-public interface ReadOnlyState {
+public interface ReadOnlyBoard {
 
     int size();
 
@@ -13,7 +15,7 @@ public interface ReadOnlyState {
 
     Token token(Coordinates coordinates);
 
-    boolean full();
+    boolean playable();
 
     Collection<Coordinates> freeCoordinates();
 }

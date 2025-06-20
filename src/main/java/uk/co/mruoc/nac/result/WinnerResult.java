@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import uk.co.mruoc.nac.token.Token;
 
 @RequiredArgsConstructor
-public class WinnerResult implements Result {
+class WinnerResult implements Result {
 
     private final Token token;
     private final Line line;

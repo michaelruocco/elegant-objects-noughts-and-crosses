@@ -3,8 +3,7 @@ package uk.co.mruoc.nac.turn;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import uk.co.mruoc.nac.board.Board;
-import uk.co.mruoc.nac.board.Coordinates;
-import uk.co.mruoc.nac.board.DefaultBoard;
+import uk.co.mruoc.nac.Coordinates;
 import uk.co.mruoc.nac.token.Token;
 
 @RequiredArgsConstructor
@@ -20,12 +19,11 @@ public class PlayerTurn implements Turn {
 
     @Override
     public Board apply(Board board) {
-        var state = board.state();
-        var originalToken = state.token(coordinates);
+        var originalToken = board.token(coordinates);
         if (!originalToken.free()) {
             throw new IllegalArgumentException(String.format(
                     "token %s already placed at coordinates %s", originalToken.value(), coordinates.toString()));
         }
-        return new DefaultBoard(state.place(coordinates, token));
+        return board.place(coordinates, token);
     }
 }

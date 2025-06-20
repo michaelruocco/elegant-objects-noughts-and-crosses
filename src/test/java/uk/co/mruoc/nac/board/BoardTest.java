@@ -18,7 +18,7 @@ class BoardTest {
     void shouldHaveDefaultSizeIfNotProvided() {
         var board = new DefaultBoard();
 
-        var size = board.state().size();
+        var size = board.size();
 
         assertThat(size).isEqualTo(3);
     }
@@ -69,15 +69,6 @@ class BoardTest {
     }
 
     @Test
-    void shouldReturnTrueIfFull() {
-        var board = fullBoard();
-
-        var full = board.state().full();
-
-        assertThat(full).isTrue();
-    }
-
-    @Test
     void shouldThrowExceptionIfTurnIfCoordinateLocationNotFoundOnBoard() {
         var board = new DefaultBoard().initialized();
         var turn = new PlayerTurn(4, 4, new TokenX());
@@ -94,7 +85,7 @@ class BoardTest {
         var board = new DefaultBoard().initialized();
         var outcome = new Outcome();
 
-        var result = outcome.decide(board.state());
+        var result = outcome.decide(board);
 
         assertThat(result.winner()).isFalse();
         assertThat(result.token()).isEqualTo(new FreeToken());
@@ -107,7 +98,7 @@ class BoardTest {
         var turns = new PlayerTurn(0, 0, new TokenX()).andThen(new PlayerTurn(0, 1, new TokenO()));
         var outcome = new Outcome();
 
-        var result = outcome.decide(turns.apply(board).state());
+        var result = outcome.decide(turns.apply(board));
 
         assertThat(result.winner()).isFalse();
         assertThat(result.token()).isEqualTo(new FreeToken());
@@ -121,7 +112,7 @@ class BoardTest {
         var turns = new PlayerTurn(0, 0, x).andThen(new PlayerTurn(0, 1, x)).andThen(new PlayerTurn(0, 2, x));
         var outcome = new Outcome();
 
-        var result = outcome.decide(turns.apply(board).state());
+        var result = outcome.decide(turns.apply(board));
 
         assertThat(result.winner()).isTrue();
         assertThat(result.token()).isEqualTo(x);
@@ -142,8 +133,8 @@ class BoardTest {
 
     @Test
     void shouldDisplayEmptyBoardStateAsString() {
-        var state = new DefaultBoard().initialized().state();
-        var stateString = new StateString(state);
+        var state = new DefaultBoard().initialized();
+        var stateString = new BoardString(state);
 
         var string = stateString.toString();
 
@@ -159,7 +150,7 @@ class BoardTest {
     @Test
     void shouldDisplayFullBoardStateAsString() {
         var board = fullBoard();
-        var state = new StateString(board.state());
+        var state = new BoardString(board);
 
         var string = state.toString();
 

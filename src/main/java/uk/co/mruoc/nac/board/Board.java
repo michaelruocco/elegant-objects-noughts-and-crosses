@@ -1,10 +1,11 @@
 package uk.co.mruoc.nac.board;
 
-public interface Board {
+import uk.co.mruoc.nac.Coordinates;
+import uk.co.mruoc.nac.token.Token;
+
+public interface Board extends ReadOnlyBoard {
 
     Board initialized();
 
-    boolean playable();
-
-    State state();
+    Board place(Coordinates coordinates, Token newToken);
 }

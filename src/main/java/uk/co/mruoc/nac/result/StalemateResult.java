@@ -5,7 +5,7 @@ import uk.co.mruoc.nac.token.FreeToken;
 import uk.co.mruoc.nac.token.Token;
 
 @RequiredArgsConstructor
-public class StalemateResult implements Result {
+class StalemateResult implements Result {
 
     @Override
     public boolean winner() {

@@ -9,9 +9,9 @@ import lombok.RequiredArgsConstructor;
 import uk.co.mruoc.nac.token.Token;
 
 @RequiredArgsConstructor
-public class StateString {
+public class BoardString {
 
-    private final ReadOnlyState state;
+    private final ReadOnlyBoard board;
 
     @Override
     public String toString() {
@@ -30,11 +30,11 @@ public class StateString {
     private String row(int y) {
         Collection<String> tokens = new ArrayList<>();
         tokens.add(Integer.toString(y));
-        sizeIntStream().mapToObj(x -> state.token(x, y)).map(Token::value).forEach(tokens::add);
+        sizeIntStream().mapToObj(x -> board.token(x, y)).map(Token::value).forEach(tokens::add);
         return String.join(" ", tokens);
     }
 
     private IntStream sizeIntStream() {
-        return IntStream.range(0, state.size());
+        return IntStream.range(0, board.size());
     }
 }

@@ -11,8 +11,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 import uk.co.mruoc.Game;
 import uk.co.mruoc.RunnableGame;
 import uk.co.mruoc.nac.board.Board;
+import uk.co.mruoc.nac.board.BoardString;
 import uk.co.mruoc.nac.board.DefaultBoard;
-import uk.co.mruoc.nac.board.StateString;
 import uk.co.mruoc.nac.result.Outcome;
 import uk.co.mruoc.nac.token.Players;
 import uk.co.mruoc.nac.turn.FixedTurns;
@@ -35,7 +35,7 @@ class RunnableGameTest {
         var completeGame = runnable.run();
 
         assertThat(completeGame.playable()).isFalse();
-        log.info("{}{}", System.lineSeparator(), new StateString(completeGame.state()));
+        log.info("{}{}", System.lineSeparator(), new BoardString(completeGame.board()));
     }
 
     private static Stream<Arguments> turns() {
