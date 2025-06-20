@@ -20,8 +20,8 @@ public class FixedTurns implements Turns {
                 new Coordinates(1, 0),
                 new Coordinates(1, 1),
                 new Coordinates(1, 2),
-                new Coordinates(2, 0),
                 new Coordinates(2, 1),
+                new Coordinates(2, 0),
                 new Coordinates(2, 2))));
     }
 
