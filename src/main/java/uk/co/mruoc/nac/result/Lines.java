@@ -10,7 +10,7 @@ import uk.co.mruoc.nac.board.BoardTokens;
 @RequiredArgsConstructor
 class Lines {
 
-    private final Collection<Line> lines;
+    private final Collection<Line> values;
 
     public Lines(int size) {
         this(Stream.concat(
@@ -20,7 +20,7 @@ class Lines {
     }
 
     public Result result(BoardTokens tokens) {
-        return lines.stream()
+        return values.stream()
                 .map(line -> result(tokens, line))
                 .filter(Result::winner)
                 .findFirst()
