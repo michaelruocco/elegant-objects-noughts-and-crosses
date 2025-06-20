@@ -3,6 +3,7 @@ package uk.co.mruoc;
 import lombok.RequiredArgsConstructor;
 import uk.co.mruoc.nac.board.Board;
 import uk.co.mruoc.nac.board.State;
+import uk.co.mruoc.nac.result.Outcome;
 import uk.co.mruoc.nac.token.Players;
 import uk.co.mruoc.nac.turn.Turns;
 
@@ -12,18 +13,19 @@ public class Game {
     private final Board board;
     private final Players players;
     private final Turns turns;
+    private final Outcome outcome;
 
     public Game playTurn() {
         var nextTurn = turns.next(players.next());
         var updatedBoard = nextTurn.apply(board);
-        return new Game(updatedBoard, players.switchNext(), turns);
+        return new Game(updatedBoard, players.switchNext(), turns, outcome);
     }
 
     public boolean playable() {
-        return board.playable();
+        return board.playable() && !outcome.decide(board.state()).winner();
     }
 
-    public State boardState() {
+    public State state() {
         return board.state();
     }
 }

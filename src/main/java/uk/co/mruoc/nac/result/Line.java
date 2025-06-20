@@ -1,17 +1,16 @@
-package uk.co.mruoc.nac.board;
+package uk.co.mruoc.nac.result;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import uk.co.mruoc.nac.result.Result;
-import uk.co.mruoc.nac.result.StalemateResult;
-import uk.co.mruoc.nac.result.WinnerResult;
+import uk.co.mruoc.nac.board.Coordinates;
+import uk.co.mruoc.nac.board.ReadOnlyState;
 
 @RequiredArgsConstructor
 public class Line {
 
-    private final Collection<Coordinates> locations;
+    private final Collection<Coordinates> coordinates;
 
     public Line() {
         this(Collections.emptyList());
@@ -19,11 +18,11 @@ public class Line {
 
     @Override
     public String toString() {
-        return locations.stream().map(Coordinates::toString).collect(Collectors.joining(","));
+        return coordinates.stream().map(Coordinates::toString).collect(Collectors.joining(","));
     }
 
     public Result result(ReadOnlyState state) {
-        var lineTokens = locations.stream().map(state::token).collect(Collectors.toSet());
+        var lineTokens = coordinates.stream().map(state::token).collect(Collectors.toSet());
         if (lineTokens.size() != 1) {
             return new StalemateResult();
         }

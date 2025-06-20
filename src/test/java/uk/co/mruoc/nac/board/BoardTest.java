@@ -6,6 +6,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
+import uk.co.mruoc.nac.result.Outcome;
 import uk.co.mruoc.nac.token.FreeToken;
 import uk.co.mruoc.nac.token.TokenO;
 import uk.co.mruoc.nac.token.TokenX;
@@ -15,11 +16,11 @@ class BoardTest {
 
     @Test
     void shouldHaveDefaultSizeIfNotProvided() {
-        var board = new Board.Smart(new DefaultBoard());
+        var board = new DefaultBoard();
 
-        var size = board.size();
+        var size = board.state().size();
 
-        assertThat(size).isEqualTo(new Size(3));
+        assertThat(size).isEqualTo(3);
     }
 
     @Test
@@ -71,7 +72,7 @@ class BoardTest {
     void shouldReturnTrueIfFull() {
         var board = fullBoard();
 
-        var full = new Board.Smart(board).full();
+        var full = board.state().full();
 
         assertThat(full).isTrue();
     }
@@ -91,8 +92,9 @@ class BoardTest {
     @Test
     void shouldReturnStalemateResultInitially() {
         var board = new DefaultBoard().initialized();
+        var outcome = new Outcome();
 
-        var result = board.result();
+        var result = outcome.decide(board.state());
 
         assertThat(result.winner()).isFalse();
         assertThat(result.token()).isEqualTo(new FreeToken());
@@ -103,8 +105,9 @@ class BoardTest {
     void shouldReturnStalemateResultIfNoWinner() {
         var board = new DefaultBoard().initialized();
         var turns = new PlayerTurn(0, 0, new TokenX()).andThen(new PlayerTurn(0, 1, new TokenO()));
+        var outcome = new Outcome();
 
-        var result = turns.apply(board).result();
+        var result = outcome.decide(turns.apply(board).state());
 
         assertThat(result.winner()).isFalse();
         assertThat(result.token()).isEqualTo(new FreeToken());
@@ -116,8 +119,9 @@ class BoardTest {
         var x = new TokenX();
         var board = new DefaultBoard().initialized();
         var turns = new PlayerTurn(0, 0, x).andThen(new PlayerTurn(0, 1, x)).andThen(new PlayerTurn(0, 2, x));
+        var outcome = new Outcome();
 
-        var result = turns.apply(board).result();
+        var result = outcome.decide(turns.apply(board).state());
 
         assertThat(result.winner()).isTrue();
         assertThat(result.token()).isEqualTo(x);

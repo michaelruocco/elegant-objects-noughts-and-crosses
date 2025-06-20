@@ -1,7 +1,6 @@
 package uk.co.mruoc.nac.result;
 
 import lombok.RequiredArgsConstructor;
-import uk.co.mruoc.nac.board.Line;
 import uk.co.mruoc.nac.token.Token;
 
 @RequiredArgsConstructor

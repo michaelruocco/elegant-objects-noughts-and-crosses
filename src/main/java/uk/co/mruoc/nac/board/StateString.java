@@ -11,11 +11,7 @@ import uk.co.mruoc.nac.token.Token;
 @RequiredArgsConstructor
 public class StateString {
 
-    private final ReadOnlyState.Smart state;
-
-    public StateString(ReadOnlyState state) {
-        this(new ReadOnlyState.Smart(state));
-    }
+    private final ReadOnlyState state;
 
     @Override
     public String toString() {
@@ -39,6 +35,6 @@ public class StateString {
     }
 
     private IntStream sizeIntStream() {
-        return IntStream.range(0, state.sizeValue());
+        return IntStream.range(0, state.size());
     }
 }

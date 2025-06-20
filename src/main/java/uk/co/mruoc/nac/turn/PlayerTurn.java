@@ -2,10 +2,10 @@ package uk.co.mruoc.nac.turn;
 
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
-import uk.co.mruoc.nac.board.Coordinates;
-import uk.co.mruoc.nac.token.Token;
 import uk.co.mruoc.nac.board.Board;
+import uk.co.mruoc.nac.board.Coordinates;
 import uk.co.mruoc.nac.board.DefaultBoard;
+import uk.co.mruoc.nac.token.Token;
 
 @RequiredArgsConstructor
 @EqualsAndHashCode

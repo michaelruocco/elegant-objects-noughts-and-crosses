@@ -13,6 +13,7 @@ import uk.co.mruoc.RunnableGame;
 import uk.co.mruoc.nac.board.Board;
 import uk.co.mruoc.nac.board.DefaultBoard;
 import uk.co.mruoc.nac.board.StateString;
+import uk.co.mruoc.nac.result.Outcome;
 import uk.co.mruoc.nac.token.Players;
 import uk.co.mruoc.nac.turn.FixedTurns;
 import uk.co.mruoc.nac.turn.RandomTurns;
@@ -23,17 +24,18 @@ class RunnableGameTest {
 
     private final Board board = new DefaultBoard().initialized();
     private final Players players = new Players();
+    private final Outcome outcome = new Outcome();
 
     @ParameterizedTest(name = "{0}")
     @MethodSource("turns")
     void shouldPlayGame(Turns turns) {
-        var game = new Game(board, players, turns);
+        var game = new Game(board, players, turns, outcome);
         var runnable = new RunnableGame(game);
 
         var completeGame = runnable.run();
 
         assertThat(completeGame.playable()).isFalse();
-        log.info("{}{}", System.lineSeparator(), new StateString(completeGame.boardState()));
+        log.info("{}{}", System.lineSeparator(), new StateString(completeGame.state()));
     }
 
     private static Stream<Arguments> turns() {

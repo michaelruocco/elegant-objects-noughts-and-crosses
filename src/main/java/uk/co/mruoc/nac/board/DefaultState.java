@@ -15,16 +15,16 @@ import uk.co.mruoc.nac.token.Token;
 @EqualsAndHashCode
 public class DefaultState implements State {
 
-    private final Size size;
+    private final BoardSize size;
     private final Map<Coordinates, Token> locations;
 
-    public DefaultState(Size size) {
+    public DefaultState(BoardSize size) {
         this(size, new LinkedHashMap<>());
     }
 
     @Override
-    public Size size() {
-        return size;
+    public int size() {
+        return size.value();
     }
 
     @Override
