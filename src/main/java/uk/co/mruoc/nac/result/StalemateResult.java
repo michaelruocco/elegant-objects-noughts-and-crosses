@@ -7,6 +7,13 @@ import uk.co.mruoc.nac.token.Token;
 @RequiredArgsConstructor
 class StalemateResult implements Result {
 
+    private final Token token;
+    private final Line line;
+
+    public StalemateResult() {
+        this(new FreeToken(), new EmptyLine());
+    }
+
     @Override
     public boolean winner() {
         return false;
@@ -14,11 +21,11 @@ class StalemateResult implements Result {
 
     @Override
     public Token token() {
-        return new FreeToken();
+        return token;
     }
 
     @Override
     public Line line() {
-        return new Line();
+        return line;
     }
 }

@@ -29,7 +29,9 @@ class BoardTest {
 
         var error = catchThrowable(board::initialized);
 
-        assertThat(error).isInstanceOf(IllegalArgumentException.class).hasMessage("board size 2 cannot be less than 3");
+        assertThat(error)
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("board size 2 must be greater than or equal to 3");
     }
 
     @Test
@@ -38,7 +40,7 @@ class BoardTest {
 
         var error = catchThrowable(board::initialized);
 
-        assertThat(error).isInstanceOf(IllegalArgumentException.class).hasMessage("board size 4 cannot be even");
+        assertThat(error).isInstanceOf(IllegalArgumentException.class).hasMessage("board size 4 must be an odd number");
     }
 
     @Test
@@ -103,10 +105,11 @@ class BoardTest {
         assertThat(result.winner()).isFalse();
         assertThat(result.token()).isEqualTo(new FreeToken());
         assertThat(result.line()).hasToString("");
+        assertThat(result.line().coordinates()).isEmpty();
     }
 
     @Test
-    void shouldReturnResultWithWinnerIfThereIsOne() {
+    void shouldReturnResultWithColumnWinnerIfThereIsOne() {
         var x = new TokenX();
         var board = new DefaultBoard().initialized();
         var turns = new PlayerTurn(0, 0, x).andThen(new PlayerTurn(0, 1, x)).andThen(new PlayerTurn(0, 2, x));
@@ -117,6 +120,48 @@ class BoardTest {
         assertThat(result.winner()).isTrue();
         assertThat(result.token()).isEqualTo(x);
         assertThat(result.line()).hasToString("x:0-y:0,x:0-y:1,x:0-y:2");
+    }
+
+    @Test
+    void shouldReturnResultWithRowWinnerIfThereIsOne() {
+        var x = new TokenX();
+        var board = new DefaultBoard().initialized();
+        var turns = new PlayerTurn(0, 0, x).andThen(new PlayerTurn(1, 0, x)).andThen(new PlayerTurn(2, 0, x));
+        var outcome = new Outcome();
+
+        var result = outcome.decide(turns.apply(board));
+
+        assertThat(result.winner()).isTrue();
+        assertThat(result.token()).isEqualTo(x);
+        assertThat(result.line()).hasToString("x:0-y:0,x:1-y:0,x:2-y:0");
+    }
+
+    @Test
+    void shouldReturnResultWithForwardSlashWinnerIfThereIsOne() {
+        var x = new TokenX();
+        var board = new DefaultBoard().initialized();
+        var turns = new PlayerTurn(0, 2, x).andThen(new PlayerTurn(1, 1, x)).andThen(new PlayerTurn(2, 0, x));
+        var outcome = new Outcome();
+
+        var result = outcome.decide(turns.apply(board));
+
+        assertThat(result.winner()).isTrue();
+        assertThat(result.token()).isEqualTo(x);
+        assertThat(result.line()).hasToString("x:2-y:0,x:1-y:1,x:0-y:2");
+    }
+
+    @Test
+    void shouldReturnResultWithBackSlashWinnerIfThereIsOne() {
+        var x = new TokenX();
+        var board = new DefaultBoard().initialized();
+        var turns = new PlayerTurn(0, 0, x).andThen(new PlayerTurn(1, 1, x)).andThen(new PlayerTurn(2, 2, x));
+        var outcome = new Outcome();
+
+        var result = outcome.decide(turns.apply(board));
+
+        assertThat(result.winner()).isTrue();
+        assertThat(result.token()).isEqualTo(x);
+        assertThat(result.line()).hasToString("x:0-y:0,x:1-y:1,x:2-y:2");
     }
 
     @Test

@@ -1,17 +1,21 @@
 package uk.co.mruoc.nac.board;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
+import uk.co.mruoc.nac.Coordinates;
 import uk.co.mruoc.nac.token.Token;
 
 @RequiredArgsConstructor
 public class BoardString {
 
     private final ReadOnlyBoard board;
+    private final CoordinateMapping coordinateMapping;
+
+    public BoardString(Board board) {
+        this(board, (Coordinates::new));
+    }
 
     @Override
     public String toString() {
@@ -28,10 +32,12 @@ public class BoardString {
     }
 
     private String row(int y) {
-        Collection<String> tokens = new ArrayList<>();
-        tokens.add(Integer.toString(y));
-        sizeIntStream().mapToObj(x -> board.token(x, y)).map(Token::value).forEach(tokens::add);
-        return String.join(" ", tokens);
+        var rowId = Stream.of(Integer.toString(y));
+        var rowTokens = sizeIntStream()
+                .mapToObj(x -> coordinateMapping.map(x, y))
+                .map(board::token)
+                .map(Token::value);
+        return Stream.concat(rowId, rowTokens).collect(Collectors.joining(" "));
     }
 
     private IntStream sizeIntStream() {
