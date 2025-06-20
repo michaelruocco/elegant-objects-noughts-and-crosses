@@ -3,9 +3,9 @@ package uk.co.mruoc;
 import java.util.Collection;
 import lombok.RequiredArgsConstructor;
 
-public interface ReadOnlyBoardState {
+public interface ReadOnlyState {
 
-    BoardSize size();
+    Size size();
 
     Token token(Coordinates coordinates);
 
@@ -15,7 +15,7 @@ public interface ReadOnlyBoardState {
 
     @RequiredArgsConstructor
     final class Smart {
-        private final ReadOnlyBoardState origin;
+        private final ReadOnlyState origin;
 
         public int sizeValue() {
             return origin.size().value();

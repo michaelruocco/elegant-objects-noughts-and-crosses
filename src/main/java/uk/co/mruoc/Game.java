@@ -19,7 +19,7 @@ public class Game {
         return board.playable();
     }
 
-    public BoardState boardState() {
+    public State boardState() {
         return board.state();
     }
 }

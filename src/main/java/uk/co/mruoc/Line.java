@@ -6,11 +6,11 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class BoardLine {
+public class Line {
 
     private final Collection<Coordinates> locations;
 
-    public BoardLine() {
+    public Line() {
         this(Collections.emptyList());
     }
 
@@ -19,15 +19,15 @@ public class BoardLine {
         return locations.stream().map(Coordinates::toString).collect(Collectors.joining(","));
     }
 
-    public BoardResult result(ReadOnlyBoardState state) {
+    public Result result(ReadOnlyState state) {
         var lineTokens = locations.stream().map(state::token).collect(Collectors.toSet());
         if (lineTokens.size() != 1) {
-            return new StalemateResult(this);
+            return new StalemateResult();
         }
         return lineTokens.stream()
                 .findFirst()
                 .filter(token -> !token.free())
-                .map(token -> new BoardResult(token, this))
-                .orElse(new StalemateResult(this));
+                .map(token -> (Result) new WinnerResult(token, this))
+                .orElse(new StalemateResult());
     }
 }

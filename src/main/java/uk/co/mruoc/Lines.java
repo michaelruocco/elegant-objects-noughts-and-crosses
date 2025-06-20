@@ -4,14 +4,14 @@ import java.util.Collection;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class BoardLines {
+public class Lines {
 
-    private final Collection<BoardLine> lines;
+    private final Collection<Line> lines;
 
-    public BoardResult result(ReadOnlyBoardState state) {
+    public Result result(ReadOnlyState state) {
         return lines.stream()
                 .map(line -> line.result(state))
-                .filter(BoardResult::winner)
+                .filter(Result::winner)
                 .findFirst()
                 .orElse(new StalemateResult());
     }

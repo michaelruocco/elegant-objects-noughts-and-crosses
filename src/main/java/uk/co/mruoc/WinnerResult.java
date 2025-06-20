@@ -3,20 +3,23 @@ package uk.co.mruoc;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class BoardResult {
+public class WinnerResult implements Result {
 
     private final Token token;
-    private final BoardLine line;
+    private final Line line;
 
+    @Override
     public boolean winner() {
         return !token.free();
     }
 
+    @Override
     public Token token() {
         return token;
     }
 
-    public BoardLine line() {
+    @Override
+    public Line line() {
         return line;
     }
 }

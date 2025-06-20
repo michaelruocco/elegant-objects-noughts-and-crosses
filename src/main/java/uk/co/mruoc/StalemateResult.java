@@ -1,12 +1,22 @@
 package uk.co.mruoc;
 
-public class StalemateResult extends BoardResult {
+import lombok.RequiredArgsConstructor;
 
-    public StalemateResult() {
-        this(new BoardLine());
+@RequiredArgsConstructor
+public class StalemateResult implements Result {
+
+    @Override
+    public boolean winner() {
+        return false;
     }
 
-    public StalemateResult(BoardLine line) {
-        super(new FreeToken(), line);
+    @Override
+    public Token token() {
+        return new FreeToken();
+    }
+
+    @Override
+    public Line line() {
+        return new Line();
     }
 }

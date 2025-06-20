@@ -15,7 +15,7 @@ class BoardTest {
 
         var size = board.size();
 
-        assertThat(size).isEqualTo(new BoardSize(3));
+        assertThat(size).isEqualTo(new Size(3));
     }
 
     @Test
@@ -135,7 +135,7 @@ class BoardTest {
     @Test
     void shouldDisplayEmptyBoardStateAsString() {
         var state = new DefaultBoard().initialized().state();
-        var stateString = new BoardStateString(state);
+        var stateString = new StateString(state);
 
         var string = stateString.toString();
 
@@ -151,7 +151,7 @@ class BoardTest {
     @Test
     void shouldDisplayFullBoardStateAsString() {
         var board = fullBoard();
-        var state = new BoardStateString(board.state());
+        var state = new StateString(board.state());
 
         var string = state.toString();
 

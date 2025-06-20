@@ -8,11 +8,11 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @EqualsAndHashCode
-public class BoardSize {
+public class Size {
 
     private final int value;
 
-    public BoardSize() {
+    public Size() {
         this(3);
     }
 
@@ -29,8 +29,8 @@ public class BoardSize {
         }
     }
 
-    public Collection<BoardLine> lines() {
-        Collection<BoardLine> lines = new ArrayList<>();
+    public Collection<Line> lines() {
+        Collection<Line> lines = new ArrayList<>();
         lines.addAll(rows());
         lines.addAll(columns());
         lines.add(backSlashDiagonal());
@@ -42,31 +42,31 @@ public class BoardSize {
         return ((value % 2) == 0);
     }
 
-    private Collection<BoardLine> rows() {
-        Collection<BoardLine> lines = new ArrayList<>();
+    private Collection<Line> rows() {
+        Collection<Line> lines = new ArrayList<>();
         for (int x = 0; x < value; x++) {
             Collection<Coordinates> coordinates = new ArrayList<>();
             for (int y = 0; y < value; y++) {
                 coordinates.add(new Coordinates(x, y));
             }
-            lines.add(new BoardLine(coordinates));
+            lines.add(new Line(coordinates));
         }
         return lines;
     }
 
-    private Collection<BoardLine> columns() {
-        Collection<BoardLine> lines = new ArrayList<>();
+    private Collection<Line> columns() {
+        Collection<Line> lines = new ArrayList<>();
         for (int y = 0; y < value; y++) {
             Collection<Coordinates> coordinates = new ArrayList<>();
             for (int x = 0; x < value; x++) {
                 coordinates.add(new Coordinates(x, y));
             }
-            lines.add(new BoardLine(coordinates));
+            lines.add(new Line(coordinates));
         }
         return lines;
     }
 
-    private BoardLine backSlashDiagonal() {
+    private Line backSlashDiagonal() {
         Collection<Coordinates> coordinates = new ArrayList<>();
         var y = 0;
         var x = 0;
@@ -75,10 +75,10 @@ public class BoardSize {
             y++;
             x++;
         } while (y < value && x < value);
-        return new BoardLine(coordinates);
+        return new Line(coordinates);
     }
 
-    private BoardLine forwardSlashDiagonal() {
+    private Line forwardSlashDiagonal() {
         Collection<Coordinates> coordinates = new ArrayList<>();
         int y = 0;
         int x = value - 1;
@@ -87,6 +87,6 @@ public class BoardSize {
             y++;
             x--;
         } while (y <= value && x >= 0);
-        return new BoardLine(coordinates);
+        return new Line(coordinates);
     }
 }

@@ -24,7 +24,7 @@ class GameTest {
         var completeGame = runnable.run();
 
         assertThat(completeGame.playable()).isFalse();
-        log.info("{}{}", System.lineSeparator(), new BoardStateString(completeGame.boardState()));
+        log.info("{}{}", System.lineSeparator(), new StateString(completeGame.boardState()));
     }
 
     private static Stream<Arguments> turns() {

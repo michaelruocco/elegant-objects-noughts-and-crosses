@@ -7,23 +7,23 @@ import lombok.RequiredArgsConstructor;
 @EqualsAndHashCode
 public class DefaultBoard implements Board {
 
-    private final BoardState state;
-    private final BoardLines lines;
+    private final State state;
+    private final Lines lines;
 
     public DefaultBoard() {
-        this(new BoardSize());
+        this(new Size());
     }
 
     public DefaultBoard(int size) {
-        this(new BoardSize(size));
+        this(new Size(size));
     }
 
-    public DefaultBoard(BoardSize size) {
-        this(new DefaultBoardState(size));
+    public DefaultBoard(Size size) {
+        this(new DefaultState(size));
     }
 
-    public DefaultBoard(BoardState state) {
-        this(state, new BoardLines(state.size().lines()));
+    public DefaultBoard(State state) {
+        this(state, new Lines(state.size().lines()));
     }
 
     @Override
@@ -37,12 +37,12 @@ public class DefaultBoard implements Board {
     }
 
     @Override
-    public BoardResult result() {
+    public Result result() {
         return lines.result(state);
     }
 
     @Override
-    public BoardState state() {
+    public State state() {
         return state;
     }
 }

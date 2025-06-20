@@ -8,12 +8,12 @@ import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class BoardStateString {
+public class StateString {
 
-    private final ReadOnlyBoardState.Smart state;
+    private final ReadOnlyState.Smart state;
 
-    public BoardStateString(ReadOnlyBoardState state) {
-        this(new ReadOnlyBoardState.Smart(state));
+    public StateString(ReadOnlyState state) {
+        this(new ReadOnlyState.Smart(state));
     }
 
     @Override

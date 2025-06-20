@@ -8,15 +8,15 @@ public interface Board {
 
     boolean playable();
 
-    BoardResult result();
+    Result result();
 
-    BoardState state();
+    State state();
 
     @RequiredArgsConstructor
     final class Smart {
         private final Board origin;
 
-        public BoardSize size() {
+        public Size size() {
             return origin.state().size();
         }
 

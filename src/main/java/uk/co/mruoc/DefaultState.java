@@ -11,22 +11,22 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @EqualsAndHashCode
-public class DefaultBoardState implements BoardState {
+public class DefaultState implements State {
 
-    private final BoardSize size;
+    private final Size size;
     private final Map<Coordinates, Token> locations;
 
-    public DefaultBoardState(BoardSize size) {
+    public DefaultState(Size size) {
         this(size, new LinkedHashMap<>());
     }
 
     @Override
-    public BoardSize size() {
+    public Size size() {
         return size;
     }
 
     @Override
-    public BoardState initialized() {
+    public State initialized() {
         size.validate();
         Map<Coordinates, Token> freeLocations = new LinkedHashMap<>();
         for (int y = 0; y < size.value(); y++) {
@@ -34,14 +34,14 @@ public class DefaultBoardState implements BoardState {
                 freeLocations.put(new Coordinates(x, y), new FreeToken());
             }
         }
-        return new DefaultBoardState(size, Collections.unmodifiableMap(freeLocations));
+        return new DefaultState(size, Collections.unmodifiableMap(freeLocations));
     }
 
     @Override
-    public BoardState place(Coordinates coordinates, Token newToken) {
+    public State place(Coordinates coordinates, Token newToken) {
         var newLocations = new LinkedHashMap<>(locations);
         newLocations.put(coordinates, newToken);
-        return new DefaultBoardState(size, newLocations);
+        return new DefaultState(size, newLocations);
     }
 
     @Override
