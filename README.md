@@ -1,7 +1,7 @@
 # Library Template
 
 [![Build](https://github.com/michaelruocco/elegant-objects-noughts-and-crosses/workflows/pipeline/badge.svg)](https://github.com/michaelruocco/elegant-objects-noughts-and-crosses/actions)
-[![codecov](https://codecov.io/gh/michaelruocco/elegant-objects-noughts-and-crosses/branch/master/graph/badge.svg?token=FWDNP534O7)](https://codecov.io/gh/michaelruocco/elegant-objects-noughts-and-crosses)
+[![codecov](https://codecov.io/gh/michaelruocco/elegant-objects-noughts-and-crosses/branch/main/graph/badge.svg?token=FWDNP534O7)](https://codecov.io/gh/michaelruocco/elegant-objects-noughts-and-crosses)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/272889cf707b4dcb90bf451392530794)](https://www.codacy.com/gh/michaelruocco/elegant-objects-noughts-and-crosses/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=michaelruocco/elegant-objects-noughts-and-crosses&amp;utm_campaign=Badge_Grade)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=michaelruocco_elegant-objects-noughts-and-crosses&metric=alert_status)](https://sonarcloud.io/dashboard?id=michaelruocco_elegant-objects-noughts-and-crosses)
 [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=michaelruocco_elegant-objects-noughts-and-crosses&metric=sqale_index)](https://sonarcloud.io/dashboard?id=michaelruocco_elegant-objects-noughts-and-crosses)
