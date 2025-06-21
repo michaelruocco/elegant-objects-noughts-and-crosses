@@ -4,26 +4,26 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import lombok.RequiredArgsConstructor;
-import uk.co.mruoc.nac.Coordinates;
-import uk.co.mruoc.nac.board.CoordinateMapping;
+import uk.co.mruoc.nac.Location;
+import uk.co.mruoc.nac.Locations;
 
 @RequiredArgsConstructor
 public class Row implements Line {
 
     private final int y;
     private final int size;
-    private final CoordinateMapping mapping;
+    private final Locations locations;
     private final LineString lineString;
 
     public Row(int y, int size) {
-        this(y, size, Coordinates::new, new LineString());
+        this(y, size, new Locations(), new LineString());
     }
 
     @Override
-    public Collection<Coordinates> coordinates() {
-        Collection<Coordinates> coordinates = new ArrayList<>();
+    public Collection<Location> coordinates() {
+        Collection<Location> coordinates = new ArrayList<>();
         for (int x = 0; x < size; x++) {
-            coordinates.add(mapping.map(x, y));
+            coordinates.add(locations.location(x, y));
         }
         return Collections.unmodifiableCollection(coordinates);
     }

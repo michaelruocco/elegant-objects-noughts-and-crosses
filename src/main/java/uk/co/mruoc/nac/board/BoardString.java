@@ -4,7 +4,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
-import uk.co.mruoc.nac.Coordinates;
+import uk.co.mruoc.nac.Locations;
 import uk.co.mruoc.nac.token.Token;
 
 @RequiredArgsConstructor
@@ -12,10 +12,10 @@ public class BoardString {
 
     private final int size;
     private final BoardTokens tokens;
-    private final CoordinateMapping coordinateMapping;
+    private final Locations locations;
 
-    public BoardString(BoardTokens board) {
-        this(board.size(), board, (Coordinates::new));
+    public BoardString(Board board) {
+        this(board.size(), board, new Locations());
     }
 
     @Override
@@ -35,7 +35,7 @@ public class BoardString {
     private String row(int y) {
         var rowId = Stream.of(Integer.toString(y));
         var rowTokens = sizeIntStream()
-                .mapToObj(x -> coordinateMapping.map(x, y))
+                .mapToObj(x -> locations.location(x, y))
                 .map(tokens::token)
                 .map(Token::value);
         return Stream.concat(rowId, rowTokens).collect(Collectors.joining(" "));

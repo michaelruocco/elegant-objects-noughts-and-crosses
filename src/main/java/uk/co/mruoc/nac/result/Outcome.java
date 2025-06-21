@@ -2,7 +2,7 @@ package uk.co.mruoc.nac.result;
 
 import java.util.function.Function;
 import lombok.RequiredArgsConstructor;
-import uk.co.mruoc.nac.board.ReadOnlyBoard;
+import uk.co.mruoc.nac.board.Board;
 
 @RequiredArgsConstructor
 public class Outcome {
@@ -13,8 +13,8 @@ public class Outcome {
         this(Lines::new);
     }
 
-    public Result decide(ReadOnlyBoard state) {
-        var lines = mapping.apply(state.size());
-        return lines.result(state);
+    public Result decide(Board board) {
+        var lines = mapping.apply(board.size());
+        return lines.result(board);
     }
 }

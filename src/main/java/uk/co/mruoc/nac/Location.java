@@ -5,12 +5,12 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @EqualsAndHashCode
-public class Coordinates {
+public class Location {
 
     private final Coordinate x;
     private final Coordinate y;
 
-    public Coordinates(long x, long y) {
+    public Location(long x, long y) {
         this(new Coordinate("x", x), new Coordinate("y", y));
     }
 

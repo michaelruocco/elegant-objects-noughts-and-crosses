@@ -12,7 +12,6 @@ import uk.co.mruoc.Game;
 import uk.co.mruoc.RunnableGame;
 import uk.co.mruoc.nac.board.Board;
 import uk.co.mruoc.nac.board.BoardString;
-import uk.co.mruoc.nac.board.DefaultBoard;
 import uk.co.mruoc.nac.result.Outcome;
 import uk.co.mruoc.nac.token.Players;
 import uk.co.mruoc.nac.turn.FixedTurns;
@@ -22,7 +21,7 @@ import uk.co.mruoc.nac.turn.Turns;
 @Slf4j
 class RunnableGameTest {
 
-    private final Board board = new DefaultBoard().initialized();
+    private final Board board = new Board();
     private final Players players = new Players();
     private final Outcome outcome = new Outcome();
 

@@ -2,9 +2,7 @@ package uk.co.mruoc.nac.board;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
 import uk.co.mruoc.nac.result.Outcome;
 import uk.co.mruoc.nac.token.FreeToken;
@@ -16,7 +14,7 @@ class BoardTest {
 
     @Test
     void shouldHaveDefaultSizeIfNotProvided() {
-        var board = new DefaultBoard();
+        var board = new Board();
 
         var size = board.size();
 
@@ -24,67 +22,38 @@ class BoardTest {
     }
 
     @Test
-    void shouldNotAllowBoardSizeLessThan3() {
-        var board = new DefaultBoard(2);
+    void shouldNotBeFullInitially() {
+        var board = new Board();
 
-        var error = catchThrowable(board::initialized);
+        var playable = board.full();
 
-        assertThat(error)
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("board size 2 must be greater than or equal to 3");
+        assertThat(playable).isFalse();
     }
 
     @Test
-    void shouldNotAllowEvenBoardSize() {
-        var board = new DefaultBoard(4);
-
-        var error = catchThrowable(board::initialized);
-
-        assertThat(error).isInstanceOf(IllegalArgumentException.class).hasMessage("board size 4 must be an odd number");
-    }
-
-    @Test
-    void shouldNotThrowExceptionIfBoardIsValid() {
-        var board = new DefaultBoard();
-
-        ThrowingCallable callable = board::initialized;
-
-        assertThatCode(callable).doesNotThrowAnyException();
-    }
-
-    @Test
-    void shouldBePlayableInitially() {
-        var board = new DefaultBoard().initialized();
-
-        var playable = board.playable();
-
-        assertThat(playable).isTrue();
-    }
-
-    @Test
-    void shouldNotBePlayableIfFull() {
+    void shouldReturnTrueIfFull() {
         var board = fullBoard();
 
-        var full = board.playable();
+        var full = board.full();
 
-        assertThat(full).isFalse();
+        assertThat(full).isTrue();
     }
 
     @Test
     void shouldThrowExceptionIfTurnIfCoordinateLocationNotFoundOnBoard() {
-        var board = new DefaultBoard().initialized();
+        var board = new Board();
         var turn = new PlayerTurn(4, 4, new TokenX());
 
         var error = catchThrowable(() -> turn.apply(board));
 
         assertThat(error)
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("location x:4-y:4 is not within board bounds, coordinates must be between 0 and 2");
+                .isInstanceOf(LocationOutsideBoardBoundsException.class)
+                .hasMessage("location x:4-y:4 outside board bounds, coordinate values must be between 0 and 2");
     }
 
     @Test
     void shouldReturnStalemateResultInitially() {
-        var board = new DefaultBoard().initialized();
+        var board = new Board();
         var outcome = new Outcome();
 
         var result = outcome.decide(board);
@@ -96,7 +65,7 @@ class BoardTest {
 
     @Test
     void shouldReturnStalemateResultIfNoWinner() {
-        var board = new DefaultBoard().initialized();
+        var board = new Board();
         var turns = new PlayerTurn(0, 0, new TokenX()).andThen(new PlayerTurn(0, 1, new TokenO()));
         var outcome = new Outcome();
 
@@ -111,7 +80,7 @@ class BoardTest {
     @Test
     void shouldReturnResultWithColumnWinnerIfThereIsOne() {
         var x = new TokenX();
-        var board = new DefaultBoard().initialized();
+        var board = new Board();
         var turns = new PlayerTurn(0, 0, x).andThen(new PlayerTurn(0, 1, x)).andThen(new PlayerTurn(0, 2, x));
         var outcome = new Outcome();
 
@@ -125,7 +94,7 @@ class BoardTest {
     @Test
     void shouldReturnResultWithRowWinnerIfThereIsOne() {
         var x = new TokenX();
-        var board = new DefaultBoard().initialized();
+        var board = new Board();
         var turns = new PlayerTurn(0, 0, x).andThen(new PlayerTurn(1, 0, x)).andThen(new PlayerTurn(2, 0, x));
         var outcome = new Outcome();
 
@@ -139,7 +108,7 @@ class BoardTest {
     @Test
     void shouldReturnResultWithForwardSlashWinnerIfThereIsOne() {
         var x = new TokenX();
-        var board = new DefaultBoard().initialized();
+        var board = new Board();
         var turns = new PlayerTurn(0, 2, x).andThen(new PlayerTurn(1, 1, x)).andThen(new PlayerTurn(2, 0, x));
         var outcome = new Outcome();
 
@@ -153,7 +122,7 @@ class BoardTest {
     @Test
     void shouldReturnResultWithBackSlashWinnerIfThereIsOne() {
         var x = new TokenX();
-        var board = new DefaultBoard().initialized();
+        var board = new Board();
         var turns = new PlayerTurn(0, 0, x).andThen(new PlayerTurn(1, 1, x)).andThen(new PlayerTurn(2, 2, x));
         var outcome = new Outcome();
 
@@ -167,18 +136,18 @@ class BoardTest {
     @Test
     void shouldThrowExceptionIfCoordinatesAlreadyTaken() {
         var turn = new PlayerTurn(0, 0, new TokenX());
-        var board = turn.apply(new DefaultBoard().initialized());
+        var board = turn.apply(new Board());
 
         var error = catchThrowable(() -> new PlayerTurn(0, 0, new TokenO()).apply(board));
 
         assertThat(error)
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("token X already placed at coordinates x:0-y:0");
+                .hasMessage("token X already placed at location x:0-y:0");
     }
 
     @Test
     void shouldDisplayEmptyBoardStateAsString() {
-        var state = new DefaultBoard().initialized();
+        var state = new Board();
         var stateString = new BoardString(state);
 
         var string = stateString.toString();
@@ -211,6 +180,7 @@ class BoardTest {
     private Board fullBoard() {
         var x = new TokenX();
         var o = new TokenO();
+
         var turns = new PlayerTurn(0, 0, x)
                 .andThen(new PlayerTurn(0, 1, o))
                 .andThen(new PlayerTurn(0, 2, x))
@@ -220,7 +190,7 @@ class BoardTest {
                 .andThen(new PlayerTurn(2, 0, x))
                 .andThen(new PlayerTurn(2, 1, o))
                 .andThen(new PlayerTurn(2, 2, x));
-        var board = new DefaultBoard().initialized();
+        var board = new Board();
         return turns.apply(board);
     }
 }

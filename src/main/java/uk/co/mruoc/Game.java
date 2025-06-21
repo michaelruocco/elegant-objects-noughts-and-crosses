@@ -25,6 +25,6 @@ public class Game {
     }
 
     public boolean playable() {
-        return board.playable() && !outcome.decide(board).winner();
+        return !board.full() && !outcome.decide(board).winner();
     }
 }

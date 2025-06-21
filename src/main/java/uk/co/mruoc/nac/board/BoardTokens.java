@@ -1,11 +1,11 @@
 package uk.co.mruoc.nac.board;
 
-import uk.co.mruoc.nac.Coordinates;
+import uk.co.mruoc.nac.Location;
 import uk.co.mruoc.nac.token.Token;
 
 public interface BoardTokens {
 
-    int size();
+    Token token(Location location);
 
-    Token token(Coordinates coordinates);
+    Board place(Location location, Token newToken);
 }

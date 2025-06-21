@@ -1,6 +1,8 @@
 package uk.co.mruoc.nac.board;
 
 import lombok.RequiredArgsConstructor;
+import uk.co.mruoc.nac.CompositeRule;
+import uk.co.mruoc.nac.Rule;
 
 @RequiredArgsConstructor
 public class BoardRules implements Rule {

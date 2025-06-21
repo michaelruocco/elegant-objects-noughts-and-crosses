@@ -2,7 +2,6 @@ package uk.co.mruoc.nac;
 
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
-import uk.co.mruoc.nac.board.Rule;
 
 @RequiredArgsConstructor
 @EqualsAndHashCode(exclude = "rule")

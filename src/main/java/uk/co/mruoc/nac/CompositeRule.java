@@ -1,4 +1,4 @@
-package uk.co.mruoc.nac.board;
+package uk.co.mruoc.nac;
 
 import java.util.Collection;
 import java.util.List;

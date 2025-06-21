@@ -1,4 +1,4 @@
-package uk.co.mruoc.nac.board;
+package uk.co.mruoc.nac;
 
 public interface Rule {
 

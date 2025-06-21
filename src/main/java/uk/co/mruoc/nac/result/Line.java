@@ -1,9 +1,9 @@
 package uk.co.mruoc.nac.result;
 
 import java.util.Collection;
-import uk.co.mruoc.nac.Coordinates;
+import uk.co.mruoc.nac.Location;
 
 public interface Line {
 
-    Collection<Coordinates> coordinates();
+    Collection<Location> coordinates();
 }
