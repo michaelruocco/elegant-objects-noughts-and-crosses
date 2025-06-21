@@ -2,7 +2,7 @@ package uk.co.mruoc.nac.result;
 
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import uk.co.mruoc.nac.board.BoardTokens;
+import uk.co.mruoc.nac.board.Board;
 
 @RequiredArgsConstructor
 class Lines {
@@ -16,16 +16,16 @@ class Lines {
         this(size, new DefaultLineMapping(), new StalemateResult(), WinnerResult::new);
     }
 
-    public Result result(BoardTokens tokens) {
+    public Result result(Board board) {
         return lineMapping.lines(size).stream()
-                .map(line -> result(tokens, line))
+                .map(line -> result(board, line))
                 .filter(Result::winner)
                 .findFirst()
                 .orElse(stalemate);
     }
 
-    private Result result(BoardTokens tokens, Line line) {
-        var lineTokens = line.coordinates().stream().map(tokens::token).collect(Collectors.toSet());
+    private Result result(Board board, Line line) {
+        var lineTokens = line.coordinates().stream().map(board::token).collect(Collectors.toSet());
         if (lineTokens.size() != 1) {
             return stalemate;
         }

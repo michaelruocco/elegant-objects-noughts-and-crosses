@@ -40,15 +40,51 @@ class BoardTest {
     }
 
     @Test
-    void shouldThrowExceptionIfTurnIfCoordinateLocationNotFoundOnBoard() {
+    void shouldThrowExceptionIfXCoordinateLessThanBoardMinimumBounds() {
         var board = new Board();
-        var turn = new PlayerTurn(4, 4, new TokenX());
+        var turn = new PlayerTurn(-1, 1, new TokenX());
 
         var error = catchThrowable(() -> turn.apply(board));
 
         assertThat(error)
                 .isInstanceOf(LocationOutsideBoardBoundsException.class)
-                .hasMessage("location x:4-y:4 outside board bounds, coordinate values must be between 0 and 2");
+                .hasMessage("location x:-1|y:1 outside board bounds, coordinate values must be between 0 and 2");
+    }
+
+    @Test
+    void shouldThrowExceptionIfXCoordinateGreaterThanThanBoardMaximumBounds() {
+        var board = new Board();
+        var turn = new PlayerTurn(3, 1, new TokenX());
+
+        var error = catchThrowable(() -> turn.apply(board));
+
+        assertThat(error)
+                .isInstanceOf(LocationOutsideBoardBoundsException.class)
+                .hasMessage("location x:3|y:1 outside board bounds, coordinate values must be between 0 and 2");
+    }
+
+    @Test
+    void shouldThrowExceptionIfYCoordinateLessThanBoardMinimumBounds() {
+        var board = new Board();
+        var turn = new PlayerTurn(1, -1, new TokenX());
+
+        var error = catchThrowable(() -> turn.apply(board));
+
+        assertThat(error)
+                .isInstanceOf(LocationOutsideBoardBoundsException.class)
+                .hasMessage("location x:1|y:-1 outside board bounds, coordinate values must be between 0 and 2");
+    }
+
+    @Test
+    void shouldThrowExceptionIfYCoordinateGreaterThanThanBoardMaximumBounds() {
+        var board = new Board();
+        var turn = new PlayerTurn(1, 3, new TokenX());
+
+        var error = catchThrowable(() -> turn.apply(board));
+
+        assertThat(error)
+                .isInstanceOf(LocationOutsideBoardBoundsException.class)
+                .hasMessage("location x:1|y:3 outside board bounds, coordinate values must be between 0 and 2");
     }
 
     @Test
@@ -88,7 +124,7 @@ class BoardTest {
 
         assertThat(result.winner()).isTrue();
         assertThat(result.token()).isEqualTo(x);
-        assertThat(result.line()).hasToString("x:0-y:0,x:0-y:1,x:0-y:2");
+        assertThat(result.line()).hasToString("x:0|y:0,x:0|y:1,x:0|y:2");
     }
 
     @Test
@@ -102,7 +138,7 @@ class BoardTest {
 
         assertThat(result.winner()).isTrue();
         assertThat(result.token()).isEqualTo(x);
-        assertThat(result.line()).hasToString("x:0-y:0,x:1-y:0,x:2-y:0");
+        assertThat(result.line()).hasToString("x:0|y:0,x:1|y:0,x:2|y:0");
     }
 
     @Test
@@ -116,7 +152,7 @@ class BoardTest {
 
         assertThat(result.winner()).isTrue();
         assertThat(result.token()).isEqualTo(x);
-        assertThat(result.line()).hasToString("x:2-y:0,x:1-y:1,x:0-y:2");
+        assertThat(result.line()).hasToString("x:2|y:0,x:1|y:1,x:0|y:2");
     }
 
     @Test
@@ -130,7 +166,7 @@ class BoardTest {
 
         assertThat(result.winner()).isTrue();
         assertThat(result.token()).isEqualTo(x);
-        assertThat(result.line()).hasToString("x:0-y:0,x:1-y:1,x:2-y:2");
+        assertThat(result.line()).hasToString("x:0|y:0,x:1|y:1,x:2|y:2");
     }
 
     @Test
@@ -142,6 +178,6 @@ class BoardTest {
 
         assertThat(error)
                 .isInstanceOf(LocationAlreadyTakenException.class)
-                .hasMessage("location x:0-y:0 already taken by token X");
+                .hasMessage("location x:0|y:0 already taken by token X");
     }
 }

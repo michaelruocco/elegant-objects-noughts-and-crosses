@@ -12,7 +12,7 @@ import uk.co.mruoc.nac.token.Token;
 
 @RequiredArgsConstructor
 @EqualsAndHashCode
-public class Board implements BoardTokens {
+public class Board {
 
     private final int size;
     private final Map<Location, Token> tokens;
@@ -30,7 +30,6 @@ public class Board implements BoardTokens {
         return size;
     }
 
-    @Override
     public Board place(Location location, Token newToken) {
         var token = token(location);
         if (!token.free()) {
@@ -41,7 +40,6 @@ public class Board implements BoardTokens {
         return new Board(size, newTokens, freeToken);
     }
 
-    @Override
     public Token token(Location location) {
         if (!withinBounds(location)) {
             throw new LocationOutsideBoardBoundsException(location, size - 1);

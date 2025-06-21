@@ -48,6 +48,6 @@ class LocationTest {
 
         var s = coordinates.toString();
 
-        assertThat(s).isEqualTo("x:2-y:3");
+        assertThat(s).isEqualTo("x:2|y:3");
     }
 }

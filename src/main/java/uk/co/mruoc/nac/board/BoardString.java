@@ -11,7 +11,7 @@ import uk.co.mruoc.nac.token.Token;
 public class BoardString {
 
     private final int size;
-    private final BoardTokens tokens;
+    private final Board board;
     private final Locations locations;
 
     public BoardString(Board board) {
@@ -36,7 +36,7 @@ public class BoardString {
         var rowId = Stream.of(Integer.toString(y));
         var rowTokens = sizeIntStream()
                 .mapToObj(x -> locations.location(x, y))
-                .map(tokens::token)
+                .map(board::token)
                 .map(Token::value);
         return Stream.concat(rowId, rowTokens).collect(Collectors.joining(" "));
     }
