@@ -7,17 +7,15 @@ import uk.co.mruoc.nac.board.Board;
 @RequiredArgsConstructor
 class Lines {
 
-    private final int size;
-    private final LineMapping lineMapping; // TODO cache wrapper so only built once
+    private final LinesFactory linesFactory;
     private final Result stalemate;
-    private final WinnerMapping winnerMapping;
 
     public Lines(int size) {
-        this(size, new DefaultLineMapping(), new StalemateResult(), WinnerResult::new);
+        this(new CachedLinesFactory(size), new StalemateResult());
     }
 
     public Result result(Board board) {
-        return lineMapping.lines(size).stream()
+        return linesFactory.build().stream()
                 .map(line -> result(board, line))
                 .filter(Result::winner)
                 .findFirst()
@@ -33,6 +31,6 @@ class Lines {
         if (token.free()) {
             return stalemate;
         }
-        return winnerMapping.winner(token, line);
+        return new WinnerResult(token, line);
     }
 }
