@@ -8,7 +8,7 @@ class BoardStringTest {
 
     @Test
     void shouldDisplayEmptyBoardStateAsString() {
-        var state = new EmptyBoard();
+        var state = new Board();
         var stateString = new BoardString(state);
 
         var string = stateString.toString();

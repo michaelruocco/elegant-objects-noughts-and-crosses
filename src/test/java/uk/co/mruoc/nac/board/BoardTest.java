@@ -14,7 +14,7 @@ class BoardTest {
 
     @Test
     void shouldHaveDefaultSizeIfNotProvided() {
-        var board = new EmptyBoard();
+        var board = new Board();
 
         var size = board.size();
 
@@ -23,7 +23,7 @@ class BoardTest {
 
     @Test
     void shouldNotBeFullInitially() {
-        var board = new EmptyBoard();
+        var board = new Board();
 
         var playable = board.full();
 
@@ -41,7 +41,7 @@ class BoardTest {
 
     @Test
     void shouldThrowExceptionIfTurnIfCoordinateLocationNotFoundOnBoard() {
-        var board = new EmptyBoard();
+        var board = new Board();
         var turn = new PlayerTurn(4, 4, new TokenX());
 
         var error = catchThrowable(() -> turn.apply(board));
@@ -53,7 +53,7 @@ class BoardTest {
 
     @Test
     void shouldReturnStalemateResultInitially() {
-        var board = new EmptyBoard();
+        var board = new Board();
         var outcome = new Outcome();
 
         var result = outcome.decide(board);
@@ -65,7 +65,7 @@ class BoardTest {
 
     @Test
     void shouldReturnStalemateResultIfNoWinner() {
-        var board = new EmptyBoard();
+        var board = new Board();
         var turns = new PlayerTurn(0, 0, new TokenX()).andThen(new PlayerTurn(0, 1, new TokenO()));
         var outcome = new Outcome();
 
@@ -80,7 +80,7 @@ class BoardTest {
     @Test
     void shouldReturnResultWithColumnWinnerIfThereIsOne() {
         var x = new TokenX();
-        var board = new EmptyBoard();
+        var board = new Board();
         var turns = new PlayerTurn(0, 0, x).andThen(new PlayerTurn(0, 1, x)).andThen(new PlayerTurn(0, 2, x));
         var outcome = new Outcome();
 
@@ -94,7 +94,7 @@ class BoardTest {
     @Test
     void shouldReturnResultWithRowWinnerIfThereIsOne() {
         var x = new TokenX();
-        var board = new EmptyBoard();
+        var board = new Board();
         var turns = new PlayerTurn(0, 0, x).andThen(new PlayerTurn(1, 0, x)).andThen(new PlayerTurn(2, 0, x));
         var outcome = new Outcome();
 
@@ -108,7 +108,7 @@ class BoardTest {
     @Test
     void shouldReturnResultWithForwardSlashWinnerIfThereIsOne() {
         var x = new TokenX();
-        var board = new EmptyBoard();
+        var board = new Board();
         var turns = new PlayerTurn(0, 2, x).andThen(new PlayerTurn(1, 1, x)).andThen(new PlayerTurn(2, 0, x));
         var outcome = new Outcome();
 
@@ -122,7 +122,7 @@ class BoardTest {
     @Test
     void shouldReturnResultWithBackSlashWinnerIfThereIsOne() {
         var x = new TokenX();
-        var board = new EmptyBoard();
+        var board = new Board();
         var turns = new PlayerTurn(0, 0, x).andThen(new PlayerTurn(1, 1, x)).andThen(new PlayerTurn(2, 2, x));
         var outcome = new Outcome();
 
@@ -136,7 +136,7 @@ class BoardTest {
     @Test
     void shouldThrowExceptionIfCoordinatesAlreadyTaken() {
         var turn = new PlayerTurn(0, 0, new TokenX());
-        var board = turn.apply(new EmptyBoard());
+        var board = turn.apply(new Board());
 
         var error = catchThrowable(() -> new PlayerTurn(0, 0, new TokenO()).apply(board));
 

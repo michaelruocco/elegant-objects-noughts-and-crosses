@@ -13,7 +13,7 @@ public class BoardFiller {
     private final Token token;
 
     public BoardFiller() {
-        this(new EmptyBoard());
+        this(new Board());
     }
 
     public BoardFiller(Board board) {
