@@ -5,7 +5,7 @@ import uk.co.mruoc.nac.token.Token;
 
 public class LocationAlreadyTakenException extends RuntimeException {
 
-    public LocationAlreadyTakenException(Token token, Location location) {
-        super(String.format("location %s already contains token %s", location.toString(), token.value()));
+    public LocationAlreadyTakenException(Location location, Token token) {
+        super(String.format("location %s already taken by token %s", location.toString(), token.value()));
     }
 }

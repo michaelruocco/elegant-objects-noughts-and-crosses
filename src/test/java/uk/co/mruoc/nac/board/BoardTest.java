@@ -14,7 +14,7 @@ class BoardTest {
 
     @Test
     void shouldHaveDefaultSizeIfNotProvided() {
-        var board = new Board();
+        var board = new EmptyBoard();
 
         var size = board.size();
 
@@ -23,7 +23,7 @@ class BoardTest {
 
     @Test
     void shouldNotBeFullInitially() {
-        var board = new Board();
+        var board = new EmptyBoard();
 
         var playable = board.full();
 
@@ -32,7 +32,7 @@ class BoardTest {
 
     @Test
     void shouldReturnTrueIfFull() {
-        var board = fullBoard();
+        var board = new BoardFiller().fill();
 
         var full = board.full();
 
@@ -41,7 +41,7 @@ class BoardTest {
 
     @Test
     void shouldThrowExceptionIfTurnIfCoordinateLocationNotFoundOnBoard() {
-        var board = new Board();
+        var board = new EmptyBoard();
         var turn = new PlayerTurn(4, 4, new TokenX());
 
         var error = catchThrowable(() -> turn.apply(board));
@@ -53,7 +53,7 @@ class BoardTest {
 
     @Test
     void shouldReturnStalemateResultInitially() {
-        var board = new Board();
+        var board = new EmptyBoard();
         var outcome = new Outcome();
 
         var result = outcome.decide(board);
@@ -65,7 +65,7 @@ class BoardTest {
 
     @Test
     void shouldReturnStalemateResultIfNoWinner() {
-        var board = new Board();
+        var board = new EmptyBoard();
         var turns = new PlayerTurn(0, 0, new TokenX()).andThen(new PlayerTurn(0, 1, new TokenO()));
         var outcome = new Outcome();
 
@@ -80,7 +80,7 @@ class BoardTest {
     @Test
     void shouldReturnResultWithColumnWinnerIfThereIsOne() {
         var x = new TokenX();
-        var board = new Board();
+        var board = new EmptyBoard();
         var turns = new PlayerTurn(0, 0, x).andThen(new PlayerTurn(0, 1, x)).andThen(new PlayerTurn(0, 2, x));
         var outcome = new Outcome();
 
@@ -94,7 +94,7 @@ class BoardTest {
     @Test
     void shouldReturnResultWithRowWinnerIfThereIsOne() {
         var x = new TokenX();
-        var board = new Board();
+        var board = new EmptyBoard();
         var turns = new PlayerTurn(0, 0, x).andThen(new PlayerTurn(1, 0, x)).andThen(new PlayerTurn(2, 0, x));
         var outcome = new Outcome();
 
@@ -108,7 +108,7 @@ class BoardTest {
     @Test
     void shouldReturnResultWithForwardSlashWinnerIfThereIsOne() {
         var x = new TokenX();
-        var board = new Board();
+        var board = new EmptyBoard();
         var turns = new PlayerTurn(0, 2, x).andThen(new PlayerTurn(1, 1, x)).andThen(new PlayerTurn(2, 0, x));
         var outcome = new Outcome();
 
@@ -122,7 +122,7 @@ class BoardTest {
     @Test
     void shouldReturnResultWithBackSlashWinnerIfThereIsOne() {
         var x = new TokenX();
-        var board = new Board();
+        var board = new EmptyBoard();
         var turns = new PlayerTurn(0, 0, x).andThen(new PlayerTurn(1, 1, x)).andThen(new PlayerTurn(2, 2, x));
         var outcome = new Outcome();
 
@@ -136,61 +136,12 @@ class BoardTest {
     @Test
     void shouldThrowExceptionIfCoordinatesAlreadyTaken() {
         var turn = new PlayerTurn(0, 0, new TokenX());
-        var board = turn.apply(new Board());
+        var board = turn.apply(new EmptyBoard());
 
         var error = catchThrowable(() -> new PlayerTurn(0, 0, new TokenO()).apply(board));
 
         assertThat(error)
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("token X already placed at location x:0-y:0");
-    }
-
-    @Test
-    void shouldDisplayEmptyBoardStateAsString() {
-        var state = new Board();
-        var stateString = new BoardString(state);
-
-        var string = stateString.toString();
-
-        assertThat(string)
-                .isEqualTo(
-                        """
-                            0 1 2
-                          0     \s
-                          1     \s
-                          2     \s""");
-    }
-
-    @Test
-    void shouldDisplayFullBoardStateAsString() {
-        var board = fullBoard();
-        var state = new BoardString(board);
-
-        var string = state.toString();
-
-        assertThat(string)
-                .isEqualTo(
-                        """
-                            0 1 2
-                          0 X O X
-                          1 O X O
-                          2 X O X""");
-    }
-
-    private Board fullBoard() {
-        var x = new TokenX();
-        var o = new TokenO();
-
-        var turns = new PlayerTurn(0, 0, x)
-                .andThen(new PlayerTurn(0, 1, o))
-                .andThen(new PlayerTurn(0, 2, x))
-                .andThen(new PlayerTurn(1, 0, o))
-                .andThen(new PlayerTurn(1, 1, x))
-                .andThen(new PlayerTurn(1, 2, o))
-                .andThen(new PlayerTurn(2, 0, x))
-                .andThen(new PlayerTurn(2, 1, o))
-                .andThen(new PlayerTurn(2, 2, x));
-        var board = new Board();
-        return turns.apply(board);
+                .isInstanceOf(LocationAlreadyTakenException.class)
+                .hasMessage("location x:0-y:0 already taken by token X");
     }
 }

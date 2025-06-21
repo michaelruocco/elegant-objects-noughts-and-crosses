@@ -11,7 +11,7 @@ class BoardValidatorTest {
 
     @Test
     void shouldNotAllowBoardSizeLessThan3() {
-        var board = new Board(2);
+        var board = new EmptyBoard(2);
         var validator = new BoardValidator(board);
 
         var error = catchThrowable(validator::validate);
@@ -23,7 +23,7 @@ class BoardValidatorTest {
 
     @Test
     void shouldNotAllowEvenBoardSize() {
-        var board = new Board(4);
+        var board = new EmptyBoard(4);
         var validator = new BoardValidator(board);
 
         var error = catchThrowable(validator::validate);
@@ -35,7 +35,7 @@ class BoardValidatorTest {
 
     @Test
     void shouldNotThrowExceptionIfBoardIsValid() {
-        var board = new Board();
+        var board = new EmptyBoard();
         var validator = new BoardValidator(board);
 
         ThrowingCallable callable = validator::validate;
