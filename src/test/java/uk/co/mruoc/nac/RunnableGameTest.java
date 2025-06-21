@@ -14,9 +14,10 @@ import uk.co.mruoc.nac.board.Board;
 import uk.co.mruoc.nac.board.BoardString;
 import uk.co.mruoc.nac.result.Outcome;
 import uk.co.mruoc.nac.token.Players;
-import uk.co.mruoc.nac.turn.FixedTurns;
 import uk.co.mruoc.nac.turn.RandomTurns;
+import uk.co.mruoc.nac.turn.StalemateFixedTurns;
 import uk.co.mruoc.nac.turn.Turns;
+import uk.co.mruoc.nac.turn.WinningFixedTurns;
 
 @Slf4j
 class RunnableGameTest {
@@ -39,6 +40,8 @@ class RunnableGameTest {
 
     private static Stream<Arguments> turns() {
         return Stream.of(
-                Arguments.of(Named.of("random", new RandomTurns())), Arguments.of(Named.of("fixed", new FixedTurns())));
+                Arguments.of(Named.of("random", new RandomTurns())),
+                Arguments.of(Named.of("stalemate-fixed", new StalemateFixedTurns())),
+                Arguments.of(Named.of("winning-fixed", new WinningFixedTurns())));
     }
 }

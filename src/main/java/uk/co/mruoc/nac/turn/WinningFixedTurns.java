@@ -8,18 +8,18 @@ import uk.co.mruoc.nac.Location;
 import uk.co.mruoc.nac.token.PlayerToken;
 
 @RequiredArgsConstructor
-public class FixedTurns implements Turns {
+public class WinningFixedTurns implements Turns {
 
     private final Queue<Location> coordinates;
 
-    public FixedTurns() {
+    public WinningFixedTurns() {
         this(new LinkedBlockingQueue<>(List.of(
                 new Location(0, 0),
                 new Location(2, 0),
                 new Location(1, 0),
                 new Location(0, 1),
-                new Location(2, 1),
                 new Location(1, 1),
+                new Location(2, 1),
                 new Location(0, 2),
                 new Location(1, 2),
                 new Location(2, 2))));
