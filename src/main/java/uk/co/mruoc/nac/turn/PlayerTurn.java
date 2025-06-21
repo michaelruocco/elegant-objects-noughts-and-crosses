@@ -19,11 +19,6 @@ public class PlayerTurn implements Turn {
 
     @Override
     public Board apply(Board board) {
-        var originalToken = board.token(coordinates);
-        if (!originalToken.free()) {
-            throw new IllegalArgumentException(String.format(
-                    "token %s already placed at coordinates %s", originalToken.value(), coordinates.toString()));
-        }
         return board.place(coordinates, token);
     }
 }

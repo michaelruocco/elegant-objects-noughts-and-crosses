@@ -19,6 +19,10 @@ public class Coordinates {
         y.validate();
     }
 
+    public boolean withinBounds(int min, int max) {
+        return x.withinBounds(min, max) && y.withinBounds(min, max);
+    }
+
     @Override
     public String toString() {
         return String.format("%s-%s", x.toString(), y.toString());

@@ -79,7 +79,7 @@ class BoardTest {
 
         assertThat(error)
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("location at coordinates x:4-y:4 not found");
+                .hasMessage("location x:4-y:4 is not within board bounds, coordinates must be between 0 and 2");
     }
 
     @Test

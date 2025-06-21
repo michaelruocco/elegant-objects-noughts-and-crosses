@@ -24,4 +24,8 @@ public class Coordinate {
     public String toString() {
         return String.format("%s:%d", axis, value);
     }
+
+    public boolean withinBounds(int min, int max) {
+        return value >= min && value <= max;
+    }
 }

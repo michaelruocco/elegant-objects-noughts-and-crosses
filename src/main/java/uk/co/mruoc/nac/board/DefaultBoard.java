@@ -1,12 +1,9 @@
 package uk.co.mruoc.nac.board;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import uk.co.mruoc.nac.Coordinates;
@@ -28,24 +25,13 @@ public class DefaultBoard implements Board {
     }
 
     public DefaultBoard(int size) {
-        this(
-                size,
-                new BoardRules(size),
-                Collections.unmodifiableMap(new HashMap<>()),
-                Coordinates::new,
-                new FreeToken());
+        this(size, new BoardRules(size), new HashMap<>(), Coordinates::new, new FreeToken());
     }
 
     @Override
     public Board initialized() {
         rules.validate();
-        Map<Coordinates, Token> freeLocations = new LinkedHashMap<>();
-        for (int y = 0; y < size; y++) {
-            for (int x = 0; x < size; x++) {
-                freeLocations.put(coordinateMapping.map(x, y), freeToken);
-            }
-        }
-        return new DefaultBoard(size, rules, Collections.unmodifiableMap(freeLocations), coordinateMapping, freeToken);
+        return this;
     }
 
     @Override
@@ -55,28 +41,33 @@ public class DefaultBoard implements Board {
 
     @Override
     public Board place(Coordinates coordinates, Token newToken) {
+        var originalToken = token(coordinates);
+        if (!originalToken.free()) {
+            // TODO add location must be free to board rules
+            throw new IllegalArgumentException(String.format(
+                    "token %s already placed at coordinates %s", originalToken.value(), coordinates.toString()));
+        }
         var newLocations = new LinkedHashMap<>(locations);
         newLocations.put(coordinates, newToken);
         return new DefaultBoard(size, rules, newLocations, coordinateMapping, freeToken);
     }
 
-    // TODO split the methods below out into BoardLocations class
     @Override
     public Token token(Coordinates coordinates) {
-        return Optional.ofNullable(locations.get(coordinates))
-                .orElseThrow(() -> new IllegalArgumentException(
-                        String.format("location at coordinates %s not found", coordinates.toString())));
-    }
-
-    @Override
-    public Collection<Coordinates> freeCoordinates() {
-        return locations.keySet().stream()
-                .filter(coordinates -> token(coordinates).free())
-                .collect(Collectors.toSet());
+        if (!withinBounds(coordinates)) {
+            throw new IllegalArgumentException(String.format(
+                    "location %s is not within board bounds, coordinates must be between 0 and %d",
+                    coordinates.toString(), size - 1));
+        }
+        return Optional.ofNullable(locations.get(coordinates)).orElse(freeToken);
     }
 
     @Override
     public boolean playable() {
-        return locations.values().stream().anyMatch(Token::free);
+        return locations.size() < size * size;
+    }
+
+    private boolean withinBounds(Coordinates coordinates) {
+        return coordinates.withinBounds(0, size - 1);
     }
 }

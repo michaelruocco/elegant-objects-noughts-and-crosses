@@ -10,11 +10,12 @@ import uk.co.mruoc.nac.token.Token;
 @RequiredArgsConstructor
 public class BoardString {
 
-    private final ReadOnlyBoard board;
+    private final int size;
+    private final BoardTokens tokens;
     private final CoordinateMapping coordinateMapping;
 
-    public BoardString(Board board) {
-        this(board, (Coordinates::new));
+    public BoardString(BoardTokens board) {
+        this(board.size(), board, (Coordinates::new));
     }
 
     @Override
@@ -35,12 +36,12 @@ public class BoardString {
         var rowId = Stream.of(Integer.toString(y));
         var rowTokens = sizeIntStream()
                 .mapToObj(x -> coordinateMapping.map(x, y))
-                .map(board::token)
+                .map(tokens::token)
                 .map(Token::value);
         return Stream.concat(rowId, rowTokens).collect(Collectors.joining(" "));
     }
 
     private IntStream sizeIntStream() {
-        return IntStream.range(0, board.size());
+        return IntStream.range(0, size);
     }
 }
